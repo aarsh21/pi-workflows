@@ -16,10 +16,10 @@ export async function buildTask(role: Role, task: string): Promise<string> {
   const markdown = await readFile(resolve(PACKAGE_ROOT, "agents", definition.file), "utf8");
   const body = markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, "").trim();
   return [
-    `You are a T3 Code-owned Pi child running the Constellation ${role} role.`,
+    `You are the Constellation ${role} agent.`,
     `Bundled skills are at ${resolve(PACKAGE_ROOT, "skills")}. Read referenced SKILL.md files from that directory.`,
-    "Use T3 Code orchestration only. Do not launch Herdr or detached Pi children. Do not delegate further unless this task explicitly asks you to.",
-    "This is a fresh-context task, not a worktree sandbox. Respect the explicit file scope and verification requirements below.",
+    "Use T3 Code for delegation. Create additional agents only if the task asks you to.",
+    "You do not have the parent's conversation history. You share its checkout. Follow the task's file scope and verification requirements.",
     "Role instructions:", body, "User task:", task,
   ].join("\n\n");
 }

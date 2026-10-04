@@ -47,7 +47,7 @@ test("delegates with injected role, Pi target, async mode, and stable retry iden
 
 test("fails closed outside T3 and never launches a detached fallback", async () => {
   const h = harness();
-  await assert.rejects(h.tools.get("constellation_delegate")!.execute("1", { task: "Test" }, undefined, undefined, h.ctx), /Start Pi through T3/);
+  await assert.rejects(h.tools.get("constellation_delegate")!.execute("1", { task: "Test" }, undefined, undefined, h.ctx), /Open Pi through T3/);
   assert.equal(h.calls.length, 0);
 });
 

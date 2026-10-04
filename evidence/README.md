@@ -14,7 +14,7 @@ This report distinguishes measured behavior from assumptions. The receipts conta
 
 [local-checks.txt](local-checks.txt) records passing unit/lifecycle/resource tests, TypeScript checking, actual Pi RPC command tests, and the package-manifest check. GitHub Actions reruns these checks on Node 24 and 26 without live credentials.
 
-The 21 tests cover tool-name resolution, duplicate/tagged T3 responses, nested permission failures, provider/model selection, explicit option validation, stable launch/cancellation identities, missing transport and missing launch receipts, role loading, session mode activation/restoration, compatibility aliases, confirmation behavior, migrated skills, and the real plan validator.
+The 22 tests cover tool-name resolution, duplicate/tagged T3 responses, nested permission failures, provider/model selection, explicit option validation, stable launch/cancellation identities, missing transport and missing launch receipts, role loading, session mode activation/restoration, compatibility aliases, confirmation behavior, migrated skills, and the real plan validator.
 
 The RPC smoke test starts a real Pi process. It verifies command registration, a persisted mode-off entry, and the outside-T3 diagnostic. It does not contact a model or pretend to test delegation.
 
@@ -65,6 +65,8 @@ The timeline records:
 The native parent fetched the completed summary once **after** the automatic notification. The evidence includes that call rather than concealing it. There was no status/wait call before the wake and no polling loop. The timeline, not just the model's claim, establishes delivery order.
 
 ## Release installation and parent-model inheritance
+
+Version 0.1.2 shortens the agent instructions and removes legacy backend warnings. Its live receipt uses the revised prompts. The Git-installed native wake test below covers version 0.1.1.
 
 The initial GitHub installation proof is archived in [v0.1.0/installed-release.json](v0.1.0/installed-release.json). Its test parent explicitly selected GPT-5.5; that was a test choice, never a production default. Historical receipts are retained unchanged instead of rewriting what was measured.
 

@@ -4,7 +4,7 @@ import { mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
-import { PACKAGE_ROOT } from "../extensions/constellation/roles.ts";
+import { buildTask, PACKAGE_ROOT, ROLES } from "../extensions/constellation/roles.ts";
 
 async function markdownFiles(directory: string): Promise<string[]> {
   const paths: string[] = [];
@@ -16,12 +16,21 @@ async function markdownFiles(directory: string): Promise<string[]> {
   return paths;
 }
 
-test("bundled workflow resources do not route to obsolete Herdr APIs or model files", async () => {
+test("bundled workflow resources do not route to obsolete delegation APIs or model files", async () => {
   for (const directory of ["skills", "agents"]) {
     for (const path of await markdownFiles(resolve(PACKAGE_ROOT, directory))) {
       const text = await readFile(path, "utf8");
       assert.doesNotMatch(text, /pstack\/models\.json|herdr-agents\/config\.json|subagents_write_task_models|\bsubagent\s*\(|`subagent`|inherit-parent/, path);
     }
+  }
+});
+
+test("child prompts give plain delegation instructions without legacy backend references", async () => {
+  for (const role of Object.keys(ROLES) as Array<keyof typeof ROLES>) {
+    const prompt = await buildTask(role, "Read the assigned file.");
+    assert.match(prompt, /Use T3 Code for delegation\. Create additional agents only if the task asks you to\./);
+    assert.doesNotMatch(prompt, /herdr|detached Pi|worktree sandbox/i);
+    assert.match(prompt, /You share its checkout\./);
   }
 });
 

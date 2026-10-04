@@ -5,7 +5,7 @@ import { buildTask, PACKAGE_ROOT, ROLES } from "./roles.ts";
 import { callT3, parseCatalog, resolveT3Tool, selectPiTarget } from "./transport.ts";
 
 const MODE_ENTRY = "constellation-mode";
-const GUIDANCE = `Constellation delegates only through T3 Code. Use constellation_delegate for a fresh-context Pi child, constellation_catalog for exact models, and constellation_status/constellation_cancel with the returned taskId. Calls are asynchronous. End your turn or do independent work after launch; T3 delivers completion automatically. Do not poll, sleep, or use Herdr's subagent tool. Every review round needs a new task with the complete brief, prior findings, responses, and unresolved objections. Parallel writing scopes must not overlap; delegation does not create isolated worktrees. Bundled workflow skills live at ${PACKAGE_ROOT}/skills.`;
+const GUIDANCE = `Use constellation_delegate to start a Pi child through T3 Code. Omit model to inherit your Pi model. constellation_catalog lists available models and options. Keep the returned taskId for constellation_status or constellation_cancel. After launch, end your turn or do other work. T3 sends the completion result automatically. Do not poll or sleep while waiting. Start a new task for each review round. Include the original brief, prior findings, responses, and unresolved objections. Children share your checkout. Give parallel writers separate file scopes. Read bundled skills at ${PACKAGE_ROOT}/skills.`;
 
 export function externalWrite(command: string): string | undefined {
   const patterns: Array<[RegExp, string]> = [

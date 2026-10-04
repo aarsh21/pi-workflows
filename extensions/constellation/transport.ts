@@ -19,7 +19,7 @@ export function resolveT3Tool(tools: readonly { name: string }[], operation: T3O
   });
   if (matches.length !== 1) {
     throw new Error(matches.length === 0
-      ? `T3 Code tool ${operation} is unavailable. Start Pi through T3 Code with its Pi provider enabled. Constellation never launches Herdr or detached children.`
+      ? `T3 Code tool ${operation} is unavailable. Open Pi through T3 Code with the Pi provider enabled.`
       : `Ambiguous T3 Code tool ${operation}; refusing to choose between multiple servers.`);
   }
   return matches[0]!.name;

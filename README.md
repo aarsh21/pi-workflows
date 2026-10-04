@@ -1,37 +1,26 @@
 # Pi Constellation
 
-**p-stack workflows, with T3 Code owning your Pi subagents. No Herdr required.**
+p-stack workflows with T3 Code-managed Pi subagents.
 
-Constellation keeps the upstream workflow skills, playbooks, principles, and two role prompts. It replaces Herdr-specific delegation with asynchronous, durable T3 child tasks that appear in T3's Agents view. It does not launch detached processes or implement another orchestrator.
-
-```text
-T3 Code → Pi + Constellation → T3-owned Pi children → automatic parent wake
-```
+Constellation keeps the upstream workflow skills, playbooks, principles, and two role prompts. T3 Code starts the Pi children, shows them in its Agents view, and notifies the parent when they finish.
 
 ## Install
 
 Requirements: Pi 1.0+, Node 22+, and a T3 Code version with the native Pi provider and `delegate_task` MCP tools. Enable Pi in T3 Settings and select it for your thread. Your Pi authentication, models, skills, and extensions carry over.
 
 ```bash
-pi install git:github.com/aarsh21/pi-constellation@v0.1.1
+pi install git:github.com/aarsh21/pi-constellation@v0.1.2
 ```
 
 Restart the T3 Pi session or run `/reload`. T3 injects its session-scoped MCP transport; do not copy tokens or create a global T3 credential file.
 
-If replacing the casualjim p-stack fork, remove its extension and the Herdr subagent host to avoid conflicting workflow instructions:
+If replacing the upstream p-stack package, remove it to avoid conflicting workflow instructions:
 
 ```bash
 pi remove npm:@casualjim/pi-pstack
-pi remove npm:@casualjim/pi-herdr-agents
 ```
 
-The full workflow uses `set_tasks`, `update_task`, and `list_task`. Keep an existing compatible task tracker, or install the upstream task-tracking package:
-
-```bash
-pi install npm:@casualjim/pi-todo-herdr
-```
-
-Despite that package's name, Herdr is optional. Its task tools work in Pi/T3 without Herdr. Terminal widgets do not render in T3.
+The full workflow also needs a task tracker with `set_tasks`, `update_task`, and `list_task`. Constellation does not bundle a task tracker. Keep an existing compatible one. T3 does not render its terminal widgets.
 
 ## Use
 
@@ -79,12 +68,12 @@ Each call launches one task. Independent calls may run in parallel. Dependent wo
 
 ## Boundaries
 
-- Run through T3's Pi provider for delegation. Outside T3, workflow skills still load, but delegation fails clearly; there is no fallback to Herdr or background Pi.
+- Run through T3's Pi provider for delegation. Outside T3, workflow skills still load, but delegation fails clearly; Constellation does not start children outside T3.
 - Children get fresh context and share the caller's checkout. Delegation does **not** create worktrees. Partition parallel writes into disjoint scopes.
 - Roles are prompt instructions, **not** enforced read-only policies or tool allowlists. T3 permission modes govern child tool calls. Untrusted code and installed extensions still run with your account's access.
 - Cancellation is asynchronous. `cancel_requested` acknowledges a request, not completed interruption. A terminal task remains readable.
 - The inherited upstream shell guard requests confirmation for recognizable external writes, including common global-option forms. It is a conservative heuristic, **not a shell parser or security sandbox**; indirect commands, scripts, aliases, and non-shell mutation tools are not fully covered. It can also ask about harmless commands. T3's permission controls remain the primary approval mechanism.
-- Status widgets and terminal decoration are not reproduced in T3. Child lifecycle/result projection uses T3's existing Agents surface.
+- Status widgets and terminal decoration are not reproduced in T3. Child lifecycle/result projection uses T3's existing Agents view.
 
 ## Verification
 
