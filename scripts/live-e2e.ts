@@ -65,7 +65,7 @@ const loader = new DefaultResourceLoader({
 await loader.reload();
 const { session } = await createAgentSession({ cwd: fixtureDir, resourceLoader: loader, settingsManager: settings, sessionManager: SessionManager.inMemory() });
 await session.bindExtensions({ mode: "rpc" });
-assert.ok(session.getActiveToolNames().includes("pstack_delegate"), "pi-t3-pstack is loaded in the real Pi runtime.");
+assert.ok(session.getActiveToolNames().includes("pstack_delegate"), "Pi Workflows is loaded in the real Pi runtime.");
 let batch: ToolCall[] = [];
 session.agent.streamFunction = model => {
   const stream = createAssistantMessageEventStream();
@@ -116,8 +116,8 @@ try {
   const [negative] = await run([{ id: "invalid-model", name: "pstack_delegate", arguments: { task: "No launch", model: "pstack-invalid-model" } }]);
   assert.equal(negative!.isError, true);
   const launch = await run([
-    { id: "worker", name: "pstack_delegate", arguments: { role: "worker", clientRequestId: launchKeys[0]!, title: "pi-t3-pstack E2E worker", task: `Synthetic integration test. You may edit ONLY ${sumPath}. Fix sum to add signed numbers. Read ${testPath} and run node --test ${testPath}. Do not edit any other file; do not delegate. Report PSTACK_IMPLEMENTATION_OK only after the test passes. Do not invent the private parent-only nonce; you were not given it.` } },
-    { id: "reviewer", name: "pstack_delegate", arguments: { role: "comment-reviewer", clientRequestId: launchKeys[1]!, title: "pi-t3-pstack E2E reviewer", task: `Synthetic report-only integration test. Inspect ONLY ${commentsPath}; do not edit it or any other file, do not delegate. Identify whether its comment is redundant. Finish the report with PSTACK_REVIEW_OK.` } },
+    { id: "worker", name: "pstack_delegate", arguments: { role: "worker", clientRequestId: launchKeys[0]!, title: "Pi Workflows E2E worker", task: `Synthetic integration test. You may edit ONLY ${sumPath}. Fix sum to add signed numbers. Read ${testPath} and run node --test ${testPath}. Do not edit any other file; do not delegate. Report PSTACK_IMPLEMENTATION_OK only after the test passes. Do not invent the private parent-only nonce; you were not given it.` } },
+    { id: "reviewer", name: "pstack_delegate", arguments: { role: "comment-reviewer", clientRequestId: launchKeys[1]!, title: "Pi Workflows E2E reviewer", task: `Synthetic report-only integration test. Inspect ONLY ${commentsPath}; do not edit it or any other file, do not delegate. Identify whether its comment is redundant. Finish the report with PSTACK_REVIEW_OK.` } },
   ]);
   tasks.push(...launch.map(decoded));
   assert.equal(new Set(tasks.map(task => task.taskId)).size, 2);
@@ -135,7 +135,7 @@ try {
   const testOutput = execFileSync(process.execPath, ["--test", testPath], { encoding: "utf8" });
   assert.notEqual(await hash(sumPath), before);
   assert.equal(await hash(commentsPath), commentsBefore, "Report-only role left the fixture unchanged.");
-  const [cancelLaunch] = await run([{ id: "cancel-launch", name: "pstack_delegate", arguments: { task: `Cancellation fixture. Read the pi-t3-pstack workflow skills and explain their principles in detail. Do not edit files or delegate.`, title: "pi-t3-pstack E2E cancellation", clientRequestId: launchKeys[2]! } }]);
+  const [cancelLaunch] = await run([{ id: "cancel-launch", name: "pstack_delegate", arguments: { task: `Cancellation fixture. Read the workflow skills and explain their principles in detail. Do not edit files or delegate.`, title: "Pi Workflows E2E cancellation", clientRequestId: launchKeys[2]! } }]);
   const cancelTask = decoded(cancelLaunch!);
   tasks.push(cancelTask);
   const [cancel] = await run([{ id: "cancel", name: "pstack_cancel", arguments: { taskId: String(cancelTask.taskId), reason: "Integration test cancellation" } }]);

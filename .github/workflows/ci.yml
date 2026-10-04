@@ -1,4 +1,4 @@
-name: pi-t3-pstack CI
+name: Pi Workflows CI
 on:
   push:
     branches: [pstack]

@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { pathToFileURL } from "node:url";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -34,6 +35,29 @@ test("Pi discovers the worker skill and includes its path in the skill catalog",
   const catalog = formatSkillsForPrompt(skills);
   assert.match(catalog, /<name>poteto-mode<\/name>/);
   assert.ok(catalog.includes(workerSkill.filePath));
+});
+
+test("roles and skill discovery work after installation in another directory", async t => {
+  const relocatedRoot = await mkdtemp(resolve(tmpdir(), "pi workflows portable-"));
+  t.after(() => rm(relocatedRoot, { recursive: true, force: true }));
+  await mkdir(resolve(relocatedRoot, "extensions/pstack"), { recursive: true });
+  await cp(resolve(PACKAGE_ROOT, "extensions/pstack/roles.ts"), resolve(relocatedRoot, "extensions/pstack/roles.ts"));
+  await cp(resolve(PACKAGE_ROOT, "agents"), resolve(relocatedRoot, "agents"), { recursive: true });
+  await cp(resolve(PACKAGE_ROOT, "skills"), resolve(relocatedRoot, "skills"), { recursive: true });
+  await writeFile(resolve(relocatedRoot, "package.json"), '{"type":"module"}');
+  const relocated = await import(pathToFileURL(resolve(relocatedRoot, "extensions/pstack/roles.ts")).href);
+  assert.equal(relocated.PACKAGE_ROOT, relocatedRoot);
+  for (const role of Object.keys(ROLES)) {
+    const prompt = await relocated.buildTask(role, "Read the assigned file.");
+    assert.ok(prompt.includes("Read the assigned file."));
+    assert.ok(!prompt.includes(PACKAGE_ROOT));
+    assert.ok(!prompt.includes(relocatedRoot));
+  }
+  const { skills } = loadSkillsFromDir({ dir: resolve(relocatedRoot, "skills"), source: "package" });
+  const workerSkill = skills.find(skill => skill.name === "poteto-mode");
+  assert.ok(workerSkill);
+  assert.ok(workerSkill.filePath.startsWith(relocatedRoot));
+  assert.ok(formatSkillsForPrompt(skills).includes(workerSkill.filePath));
 });
 
 test("child prompts give plain delegation instructions without legacy backend references", async () => {

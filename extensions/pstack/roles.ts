@@ -12,7 +12,7 @@ export type Role = keyof typeof ROLES;
 export async function buildTask(role: Role, task: string): Promise<string> {
   if (!task.trim()) throw new Error("A delegated task cannot be empty.");
   const definition = ROLES[role];
-  if (!definition) throw new Error(`Unknown pi-t3-pstack role: ${role}`);
+  if (!definition) throw new Error(`Unknown Pi Workflows role: ${role}`);
   const markdown = await readFile(resolve(PACKAGE_ROOT, "agents", definition.file), "utf8");
   const body = markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, "").trim();
   return [

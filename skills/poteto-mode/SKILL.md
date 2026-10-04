@@ -63,7 +63,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Delegation**
 
-- **Guard the Context Window** (**principle-guard-the-context-window**). Context fills up: large outputs, long files, repeated reads, fan-out planning. Route bulk to pi-t3-pstack delegates, keep summaries in the main thread.
+- **Guard the Context Window** (**principle-guard-the-context-window**). Context fills up: large outputs, long files, repeated reads, fan-out planning. Route bulk to Pi delegates, keep summaries in the main thread.
 - **Never Block on the Human** (**principle-never-block-on-the-human**). Tempted to ask "should I do X?" on reversible work. Proceed, present the result, let the human course-correct.
 
 **Meta**
@@ -80,7 +80,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **No is an acceptable answer.** Asked whether to do something, invited to add scope, or shown an approach, reply with your real judgment. Decline, push back, or say "this doesn't earn its place" when true. A recommendation is a judgment, not a validation. Agreement is not the default, candor over sycophancy.
 
-## pi-t3-pstack delegates
+## Pi delegates
 
 **Use `pstack_delegate` for implementation delegates and ad-hoc helpers.** This package targets T3 Code-owned Pi child tasks. The bundled roles are listed by `pstack_roles({})`: `worker` maps to `poteto-agent`, and `comment-reviewer` maps to `comment-sicko`.
 

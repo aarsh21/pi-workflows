@@ -2,7 +2,7 @@
 
 Invoked at the end of every other playbook.
 
-**Worktree.** Work from a git worktree off main when the current thread already has one or the user explicitly requested one. pi-t3-pstack delegates share the caller checkout and do not get automatic worktree isolation. Multiple delegate calls on the same branch must serialize writes or use disjoint scopes. For separate top-level worktree threads, get explicit user intent and create them in the parent before assigning work. Dirty branch with unrelated work: patch out, fresh worktree, apply. Snarled worktree: reset from main, redo minimally.
+**Worktree.** Work from a git worktree off main when the current thread already has one or the user explicitly requested one. Pi delegates share the caller checkout and do not get automatic worktree isolation. Multiple delegate calls on the same branch must serialize writes or use disjoint scopes. For separate top-level worktree threads, get explicit user intent and create them in the parent before assigning work. Dirty branch with unrelated work: patch out, fresh worktree, apply. Snarled worktree: reset from main, redo minimally.
 
 **Commits.** Commit liberally. Rebase into small, ordered commits before opening PRs. Each commit is a future PR: landable, ordered to tell the story. Amend when the fix belongs in a just-made commit. New commit when separable.
 
@@ -30,4 +30,4 @@ After these sections, attach videos or screenshots when they prove a claim. Do n
 
 **Babysit.** Opening a PR does not start a babysit. Post the URL and keep building. Finish the phase or stack first. Run a separate babysit pass only when the user asks for one after the whole stack exists. A babysit for each new PR stalls the build and spends checks on commits that later waves restart. Push back when feedback drifts from intent.
 
-A pi-t3-pstack delegate that opens a PR runs `interrogate`, a manual diff cleanup pass, and `/skill:no-comments`. It returns the URL and does not babysit. Return to the parent.
+A Pi delegate that opens a PR runs `interrogate`, a manual diff cleanup pass, and `/skill:no-comments`. It returns the URL and does not babysit. Return to the parent.

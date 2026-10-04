@@ -29,7 +29,7 @@ Each explorer gets the prompt in `references/explorer-prompt.md` with its angle 
 
 ## Step 2b. Direct Explain (simple questions)
 
-Spawn one pi-t3-pstack delegate that explores and explains in one pass:
+Spawn one Pi delegate that explores and explains in one pass:
 
 - `role`: `'worker'`
 - `model`: omit by default; choose an authenticated ID from `pstack_catalog({})` only when explicit diversity matters
@@ -39,7 +39,7 @@ Build its prompt from `references/explainer-prompt.md` without the explorer-find
 
 ## Step 3. Synthesize (complex questions only)
 
-Once all explorers have returned, spawn one pi-t3-pstack delegate to synthesize their findings into one explanation:
+Once all explorers have returned, spawn one Pi delegate to synthesize their findings into one explanation:
 
 - `role`: `'worker'`
 - `model`: omit by default; choose an authenticated ID from `pstack_catalog({})` only when explicit diversity matters

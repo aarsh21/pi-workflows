@@ -1,6 +1,6 @@
 ---
 name: reflect
-description: Spawn three parallel pi-t3-pstack review delegates over the active transcript, surface learnings, and route each to a concrete edit on an existing skill. Use when the user says reflect.
+description: Spawn three parallel Pi review delegates over the active transcript, surface learnings, and route each to a concrete edit on an existing skill. Use when the user says reflect.
 disable-model-invocation: true
 ---
 
@@ -28,7 +28,7 @@ Call `pstack_delegate` once per reviewer. Independent calls may be launched in p
 | Tooling | omitted by default, or authenticated catalog ID | `references/tooling-reviewer.md` |
 | Divergent | omitted by default, or authenticated catalog ID | `references/divergent-reviewer.md` |
 
-Pass each template verbatim, substituting the transcript path or digest where marked. Reviewers return findings in their pi-t3-pstack task results.
+Pass each template verbatim, substituting the transcript path or digest where marked. Reviewers return findings in their T3 task results.
 
 ### 3. Synthesize
 

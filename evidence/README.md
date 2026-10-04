@@ -2,9 +2,9 @@
 
 ## Current checks
 
-[local-checks.txt](local-checks.txt) records 23 passing tests, TypeScript checking, a real Pi RPC smoke test, and a package check.
+[local-checks.txt](local-checks.txt) records 24 passing tests, TypeScript checking, a real Pi RPC smoke test, and a package check.
 
-The tests cover T3 transport decoding, permission errors, model inheritance, retry keys, role loading, mode commands, shell confirmation, and migrated workflow resources. They also reject legacy backend warnings, brand identity lines, and redundant skill paths in child prompts.
+The tests cover T3 transport decoding, permission errors, model inheritance, retry keys, role loading, mode commands, shell confirmation, and migrated workflow resources. They also reject legacy backend warnings, brand identity lines, and redundant skill paths in child prompts. The relocation test copies roles and skills into a new temporary directory with spaces in its name. It imports the copied role module and verifies role loading, the package-root calculation, and skill-catalog paths without using the original directory.
 
 ## Real Pi children
 

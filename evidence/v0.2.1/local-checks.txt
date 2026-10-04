@@ -1,45 +1,44 @@
 
-> @aarsh21/pi-workflows@0.2.2 test
+> @aarsh21/pi-t3-pstack@0.2.1 test
 > node --experimental-strip-types --test tests/*.test.ts
 
-✔ delegates with injected role, Pi target, async mode, and stable retry identity (3.459651ms)
-✔ fails closed outside T3 and never launches a detached fallback (0.681457ms)
-✔ rejects missing task IDs and unavailable models without claiming success (1.306055ms)
-✔ forwards task status and idempotent cancellation through Pi's nested tool pipeline (0.546945ms)
-✔ cancellation retry identities cannot collide across different tasks (0.276378ms)
-✔ bundled role paths cannot be selected arbitrarily (0.376844ms)
-✔ retains upstream external-write guardrail (0.498882ms)
-✔ branded command and compatibility alias expand the skill and persist mode (1.46289ms)
-✔ restores the last mode entry from the active session branch (0.227864ms)
-✔ both explicit mode skills activate sticky mode but ordinary input does not (0.572415ms)
-✔ noninteractive irreversible shell calls fail closed (0.275357ms)
-✔ declined approval blocks and approved RPC-compatible confirmation allows (0.275467ms)
-✔ connectivity command reports missing registration without launching model work (0.192225ms)
-✔ bundled workflow resources do not route to obsolete delegation APIs or model files (8.624865ms)
-✔ Pi discovers the worker skill and includes its path in the skill catalog (8.050716ms)
-✔ roles and skill discovery work after installation in another directory (8.479582ms)
-✔ child prompts give plain delegation instructions without legacy backend references (0.362176ms)
-✔ plan validator accepts the migrated model-omission phrase rather than obsolete aliases (27.125281ms)
-✔ resolves T3 names without picking an unrelated delegate tool (0.610419ms)
-✔ decodes real T3 bridge duplicate JSON and rejects malformed/error results (0.520384ms)
-✔ unwraps Pi's nested outcome and carries nested permission errors (0.219467ms)
-✔ selects inherited Pi instance/model and validates live options (0.215931ms)
-✔ does not inherit another provider's model or choose an ambiguous Pi instance (0.131877ms)
-✔ rejects malformed catalogs at the boundary (0.110235ms)
-ℹ tests 24
+✔ delegates with injected role, Pi target, async mode, and stable retry identity (3.421193ms)
+✔ fails closed outside T3 and never launches a detached fallback (0.714798ms)
+✔ rejects missing task IDs and unavailable models without claiming success (1.370364ms)
+✔ forwards task status and idempotent cancellation through Pi's nested tool pipeline (0.651159ms)
+✔ cancellation retry identities cannot collide across different tasks (0.334511ms)
+✔ bundled role paths cannot be selected arbitrarily (0.43972ms)
+✔ retains upstream external-write guardrail (0.533426ms)
+✔ branded command and compatibility alias expand the skill and persist mode (1.486343ms)
+✔ restores the last mode entry from the active session branch (0.234062ms)
+✔ both explicit mode skills activate sticky mode but ordinary input does not (0.599511ms)
+✔ noninteractive irreversible shell calls fail closed (0.284938ms)
+✔ declined approval blocks and approved RPC-compatible confirmation allows (0.251474ms)
+✔ connectivity command reports missing registration without launching model work (0.175801ms)
+✔ bundled workflow resources do not route to obsolete delegation APIs or model files (9.339055ms)
+✔ Pi discovers the worker skill and includes its path in the skill catalog (8.228331ms)
+✔ child prompts give plain delegation instructions without legacy backend references (0.595654ms)
+✔ plan validator accepts the migrated model-omission phrase rather than obsolete aliases (30.022529ms)
+✔ resolves T3 names without picking an unrelated delegate tool (0.631551ms)
+✔ decodes real T3 bridge duplicate JSON and rejects malformed/error results (0.578712ms)
+✔ unwraps Pi's nested outcome and carries nested permission errors (0.213092ms)
+✔ selects inherited Pi instance/model and validates live options (0.236766ms)
+✔ does not inherit another provider's model or choose an ambiguous Pi instance (0.113003ms)
+✔ rejects malformed catalogs at the boundary (0.107874ms)
+ℹ tests 23
 ℹ suites 0
-ℹ pass 24
+ℹ pass 23
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 351.426224
+ℹ duration_ms 343.04836
 
-> @aarsh21/pi-workflows@0.2.2 typecheck
+> @aarsh21/pi-t3-pstack@0.2.1 typecheck
 > tsc --noEmit
 
 
-> @aarsh21/pi-workflows@0.2.2 test:rpc
+> @aarsh21/pi-t3-pstack@0.2.1 test:rpc
 > python3 scripts/rpc-smoke.py
 
 {
@@ -56,18 +55,18 @@
   "outsideT3FailsClosed": true
 }
 
-> @aarsh21/pi-workflows@0.2.2 check:pack
+> @aarsh21/pi-t3-pstack@0.2.1 check:pack
 > npm pack --dry-run
 
 npm notice
-npm notice 📦  @aarsh21/pi-workflows@0.2.2
+npm notice 📦  @aarsh21/pi-t3-pstack@0.2.1
 npm notice Tarball Contents
 npm notice 1.1kB LICENSE
 npm notice 975B PROVENANCE.md
-npm notice 6.7kB README.md
+npm notice 6.6kB README.md
 npm notice 2.5kB agents/comment-sicko.md
 npm notice 283B agents/poteto-agent.md
-npm notice 8.1kB extensions/pstack/index.ts
+npm notice 8.2kB extensions/pstack/index.ts
 npm notice 1.3kB extensions/pstack/roles.ts
 npm notice 5.6kB extensions/pstack/transport.ts
 npm notice 1.1kB package.json
@@ -86,7 +85,7 @@ npm notice 5.9kB skills/create-verification-skill/SKILL.md
 npm notice 4.4kB skills/figure-it-out/SKILL.md
 npm notice 3.1kB skills/how/references/explainer-prompt.md
 npm notice 2.7kB skills/how/references/explorer-prompt.md
-npm notice 2.9kB skills/how/SKILL.md
+npm notice 3.0kB skills/how/SKILL.md
 npm notice 5.4kB skills/interrogate/references/code-quality-review.md
 npm notice 3.5kB skills/interrogate/references/lead-judgment.md
 npm notice 2.8kB skills/interrogate/references/reviewer-prompt.md
@@ -106,7 +105,7 @@ npm notice 4.2kB skills/poteto-mode/playbooks/hillclimb.md
 npm notice 928B skills/poteto-mode/playbooks/investigation.md
 npm notice 12.2kB skills/poteto-mode/playbooks/multi-phase-plan.md
 npm notice 5.2kB skills/poteto-mode/playbooks/opening-a-pr.md
-npm notice 17.0kB skills/poteto-mode/playbooks/orchestrate.md
+npm notice 17.1kB skills/poteto-mode/playbooks/orchestrate.md
 npm notice 1.2kB skills/poteto-mode/playbooks/pause-safely.md
 npm notice 3.1kB skills/poteto-mode/playbooks/perf-issue.md
 npm notice 2.2kB skills/poteto-mode/playbooks/prototype.md
@@ -116,7 +115,7 @@ npm notice 1.6kB skills/poteto-mode/playbooks/session-pickup.md
 npm notice 4.9kB skills/poteto-mode/playbooks/shipping.md
 npm notice 1.9kB skills/poteto-mode/playbooks/trace-forensics.md
 npm notice 1.2kB skills/poteto-mode/playbooks/visual-parity.md
-npm notice 2.9kB skills/poteto-mode/playbooks/worktree-cleanup.md
+npm notice 3.0kB skills/poteto-mode/playbooks/worktree-cleanup.md
 npm notice 9.6kB skills/poteto-mode/references/bugbot-triage.md
 npm notice 1.7kB skills/poteto-mode/scripts/bootstrap.ts
 npm notice 6.7kB skills/poteto-mode/scripts/bun.lock
@@ -193,13 +192,13 @@ npm notice 3.1kB skills/why/references/sources/slack.md
 npm notice 8.0kB skills/why/references/synthesizer-prompt.md
 npm notice 10.1kB skills/why/SKILL.md
 npm notice Tarball Details
-npm notice name: @aarsh21/pi-workflows
-npm notice version: 0.2.2
-npm notice filename: aarsh21-pi-workflows-0.2.2.tgz
-npm notice package size: 209.2 kB
-npm notice unpacked size: 621.8 kB
-npm notice shasum: c970628736150dd5d94146869dca71f3f9d190bc
-npm notice integrity: sha512-Jo2V2q+pHenhO[...]D0Z335Nh+DDBg==
+npm notice name: @aarsh21/pi-t3-pstack
+npm notice version: 0.2.1
+npm notice filename: aarsh21-pi-t3-pstack-0.2.1.tgz
+npm notice package size: 209.1 kB
+npm notice unpacked size: 622.1 kB
+npm notice shasum: 6816c599ba4df8dcdc8fc71662b98a07a498531b
+npm notice integrity: sha512-S4mfbePU1IF+v[...]jxX3Qeqxn7mTA==
 npm notice total files: 130
 npm notice
-aarsh21-pi-workflows-0.2.2.tgz
+aarsh21-pi-t3-pstack-0.2.1.tgz

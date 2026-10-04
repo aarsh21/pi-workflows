@@ -1,6 +1,6 @@
-# pi-t3-pstack
+# Pi Workflows
 
-p-stack workflows with T3 Code-managed Pi subagents.
+p-stack workflows for Pi, with T3 Code-managed subagents.
 
 The package includes the upstream workflow skills, playbooks, principles, and two role prompts. T3 Code starts the Pi children, shows them in its Agents view, and notifies the parent when they finish.
 
@@ -9,10 +9,10 @@ The package includes the upstream workflow skills, playbooks, principles, and tw
 Requirements: Pi 1.0+, Node 22+, and a T3 Code version with the native Pi provider and `delegate_task` MCP tools. Enable Pi in T3 Settings and select it for your thread. Your Pi authentication, models, skills, and extensions carry over.
 
 ```bash
-pi install git:github.com/aarsh21/pi-t3-pstack@v0.2.1
+pi install git:github.com/aarsh21/pi-workflows@v0.2.2
 ```
 
-Restart the T3 Pi session or run `/reload`. Pi adds the package's available skill names, descriptions, and paths to the child context. The worker reads the full skill when needed; the task prompt does not repeat the skill directory or a project identity. T3 injects its session-scoped MCP transport; do not copy tokens or create a global T3 credential file.
+Restart the T3 Pi session or run `/reload`. Pi adds the package's available skill names, descriptions, and paths to the child context. The worker reads the full skill when needed; the task prompt does not repeat the skill directory or a project identity. File lookup uses the installed extension's location, not the developer's working directory. `/pstack` and the `pstack_*` tools keep their names. T3 injects its session-scoped MCP transport; do not copy tokens or create a global T3 credential file.
 
 If replacing the upstream p-stack package, remove it to avoid conflicting workflow instructions:
 
@@ -20,7 +20,7 @@ If replacing the upstream p-stack package, remove it to avoid conflicting workfl
 pi remove npm:@casualjim/pi-pstack
 ```
 
-The full workflow also needs a task tracker with `set_tasks`, `update_task`, and `list_task`. pi-t3-pstack does not bundle a task tracker. Keep an existing compatible one. T3 does not render its terminal widgets.
+The full workflow also needs a task tracker with `set_tasks`, `update_task`, and `list_task`. Pi Workflows does not bundle a task tracker. Keep an existing compatible one. T3 does not render its terminal widgets.
 
 ## Use
 
@@ -68,7 +68,7 @@ Each call launches one task. Independent calls may run in parallel. Dependent wo
 
 ## Boundaries
 
-- Run through T3's Pi provider for delegation. Outside T3, workflow skills still load, but delegation fails clearly; pi-t3-pstack does not start children outside T3.
+- Run through T3's Pi provider for delegation. Outside T3, workflow skills still load, but delegation fails clearly; Pi Workflows does not start children outside T3.
 - Children get fresh context and share the caller's checkout. Delegation does **not** create worktrees. Partition parallel writes into disjoint scopes.
 - Roles are prompt instructions, **not** enforced read-only policies or tool allowlists. T3 permission modes govern child tool calls. Untrusted code and installed extensions still run with your account's access.
 - Cancellation is asynchronous. `cancel_requested` acknowledges a request, not completed interruption. A terminal task remains readable.
@@ -77,7 +77,7 @@ Each call launches one task. Independent calls may run in parallel. Dependent wo
 
 ## Verification
 
-See [the evidence report](https://github.com/aarsh21/pi-t3-pstack/blob/pstack/evidence/README.md), [real child-run receipts](https://github.com/aarsh21/pi-t3-pstack/blob/pstack/evidence/live-e2e.json), and [GitHub-installed release timeline](https://github.com/aarsh21/pi-t3-pstack/blob/pstack/evidence/installed-release.json).
+See [the evidence report](https://github.com/aarsh21/pi-workflows/blob/pstack/evidence/README.md), [real child-run receipts](https://github.com/aarsh21/pi-workflows/blob/pstack/evidence/live-e2e.json), and [GitHub-installed release timeline](https://github.com/aarsh21/pi-workflows/blob/pstack/evidence/installed-release.json).
 
 ```bash
 npm ci --ignore-scripts

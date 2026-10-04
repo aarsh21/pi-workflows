@@ -27,7 +27,7 @@ function output(value: unknown) {
 export default function pstack(pi: ExtensionAPI) {
   let enabled = false;
   pi.registerTool({
-    name: "pstack_catalog", label: "pi-t3-pstack catalog",
+    name: "pstack_catalog", label: "Pi Workflows catalog",
     description: "Read T3 Code's live provider and model catalog. Choose exact Pi model IDs and supported options before delegation.",
     parameters: Type.Object({}),
     async execute(_id, _params, signal, _update, ctx) {
@@ -35,13 +35,13 @@ export default function pstack(pi: ExtensionAPI) {
     },
   });
   pi.registerTool({
-    name: "pstack_roles", label: "pi-t3-pstack roles",
-    description: "List bundled pi-t3-pstack roles. Role instructions are not enforced permission boundaries.",
+    name: "pstack_roles", label: "Pi Workflows roles",
+    description: "List bundled Pi Workflows roles. Role instructions are not enforced permission boundaries.",
     parameters: Type.Object({}),
     async execute() { return output(ROLES); },
   });
   pi.registerTool({
-    name: "pstack_delegate", label: "pi-t3-pstack delegate",
+    name: "pstack_delegate", label: "Pi delegate",
     description: "Launch one asynchronous T3-owned Pi child with a bundled role. Returns taskId; T3 delivers completion automatically. Run independent calls in parallel, never poll. All children share the caller checkout; use disjoint write scopes. A new review round must include its full brief and prior findings.",
     parameters: Type.Object({
       task: Type.String({ minLength: 1 }),
@@ -57,7 +57,7 @@ export default function pstack(pi: ExtensionAPI) {
       const catalog = parseCatalog(await callT3(ctx, "orchestrator_capabilities", {}, signal));
       const target = selectPiTarget(catalog, params.model, params.options);
       const value = await callT3(ctx, "delegate_task", {
-        task, title: params.title ?? `pi-t3-pstack ${role}`,
+        task, title: params.title ?? `Pi Workflows ${role}`,
         role: role === "comment-reviewer" ? "review" : "implementation",
         target, mode: "async", clientRequestId: params.clientRequestId ?? `pstack:${ctx.sessionManager.getSessionId()}:${toolCallId}`,
       }, signal);
@@ -66,7 +66,7 @@ export default function pstack(pi: ExtensionAPI) {
     },
   });
   pi.registerTool({
-    name: "pstack_status", label: "pi-t3-pstack status",
+    name: "pstack_status", label: "Pi Workflows status",
     description: "Read a T3 task only when its result is needed mid-turn. Normal completion is automatically delivered; do not poll.",
     parameters: Type.Object({ taskId: Type.String({ minLength: 1 }) }),
     async execute(_id, params, signal, _update, ctx) {
@@ -74,7 +74,7 @@ export default function pstack(pi: ExtensionAPI) {
     },
   });
   pi.registerTool({
-    name: "pstack_cancel", label: "pi-t3-pstack cancel",
+    name: "pstack_cancel", label: "Pi Workflows cancel",
     description: "Cancel an active T3-owned child task by taskId and suppress its automatic delivery. Terminal tasks remain readable.",
     parameters: Type.Object({ taskId: Type.String({ minLength: 1 }), reason: Type.Optional(Type.String({ maxLength: 2000 })) }),
     async execute(toolCallId, params, signal, _update, ctx) {
@@ -88,7 +88,7 @@ export default function pstack(pi: ExtensionAPI) {
         enabled = Boolean((entry.data as { enabled?: boolean } | undefined)?.enabled);
       }
     }
-    if (ctx.hasUI) ctx.ui.setStatus(MODE_ENTRY, enabled ? "pi-t3-pstack" : undefined);
+    if (ctx.hasUI) ctx.ui.setStatus(MODE_ENTRY, enabled ? "Pi Workflows" : undefined);
   });
   pi.on("input", event => {
     if (/^\/skill:(pstack-mode|poteto-mode)(?:\s|$)/.test(event.text)) {
@@ -118,7 +118,7 @@ export default function pstack(pi: ExtensionAPI) {
     }
     enabled = true;
     pi.appendEntry(MODE_ENTRY, { enabled: true });
-    if (ctx.hasUI) ctx.ui.setStatus(MODE_ENTRY, "pi-t3-pstack");
+    if (ctx.hasUI) ctx.ui.setStatus(MODE_ENTRY, "Pi Workflows");
     pi.sendUserMessage(`/skill:pstack-mode${args.trim() ? ` ${args.trim()}` : ""}`);
   };
   pi.registerCommand("pstack", { description: "Enable the T3-native workflow: /pstack [task] | /pstack off", handler });
@@ -130,7 +130,7 @@ export default function pstack(pi: ExtensionAPI) {
         for (const operation of ["orchestrator_capabilities", "delegate_task", "task_status", "task_cancel"] as const) {
           resolveT3Tool(pi.getAllTools(), operation);
         }
-        if (ctx.hasUI) ctx.ui.notify("pi-t3-pstack T3 tools are registered. Use pstack_catalog to check live Pi availability.", "info");
+        if (ctx.hasUI) ctx.ui.notify("Pi Workflows T3 tools are registered. Use pstack_catalog to check live Pi availability.", "info");
       } catch (error) {
         if (ctx.hasUI) ctx.ui.notify(error instanceof Error ? error.message : String(error), "error");
       }
