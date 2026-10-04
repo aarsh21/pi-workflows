@@ -1,0 +1,202 @@
+
+> @aarsh21/pi-constellation@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+✔ delegates with injected role, Pi target, async mode, and stable retry identity (4.010073ms)
+✔ fails closed outside T3 and never launches a detached fallback (0.935421ms)
+✔ rejects missing task IDs and unavailable models without claiming success (1.814518ms)
+✔ forwards task status and idempotent cancellation through Pi's nested tool pipeline (0.713063ms)
+✔ cancellation retry identities cannot collide across different tasks (0.326645ms)
+✔ bundled role paths cannot be selected arbitrarily (0.475976ms)
+✔ retains upstream external-write guardrail (0.534948ms)
+✔ branded command and compatibility alias expand the skill and persist mode (1.796704ms)
+✔ restores the last mode entry from the active session branch (0.247286ms)
+✔ both explicit mode skills activate sticky mode but ordinary input does not (0.641017ms)
+✔ noninteractive irreversible shell calls fail closed (0.313029ms)
+✔ declined approval blocks and approved RPC-compatible confirmation allows (0.300746ms)
+✔ connectivity command reports missing registration without launching model work (0.285568ms)
+✔ bundled workflow resources do not route to obsolete Herdr APIs or model files (6.996227ms)
+✔ plan validator accepts the migrated model-omission phrase rather than obsolete aliases (31.167122ms)
+✔ resolves T3 names without picking an unrelated delegate tool (0.770421ms)
+✔ decodes real T3 bridge duplicate JSON and rejects malformed/error results (0.535097ms)
+✔ unwraps Pi's nested outcome and carries nested permission errors (0.203473ms)
+✔ selects inherited Pi instance/model and validates live options (0.214835ms)
+✔ does not inherit another provider's model or choose an ambiguous Pi instance (0.091613ms)
+✔ rejects malformed catalogs at the boundary (0.103545ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 94.4975
+
+> @aarsh21/pi-constellation@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @aarsh21/pi-constellation@0.1.0 test:rpc
+> python3 scripts/rpc-smoke.py
+
+{
+  "passed": true,
+  "commands": [
+    "constellation",
+    "constellation-check",
+    "poteto-mode",
+    "skill:agent-browser",
+    "skill:diagnose-crash",
+    "skill:omarchy"
+  ],
+  "modeOffPersisted": true,
+  "outsideT3FailsClosed": true
+}
+
+> @aarsh21/pi-constellation@0.1.0 check:pack
+> npm pack --dry-run
+
+npm notice
+npm notice 📦  @aarsh21/pi-constellation@0.1.0
+npm notice Tarball Contents
+npm notice 1.1kB LICENSE
+npm notice 933B PROVENANCE.md
+npm notice 6.7kB README.md
+npm notice 2.5kB agents/comment-sicko.md
+npm notice 717B agents/poteto-agent.md
+npm notice 8.5kB extensions/constellation/index.ts
+npm notice 1.6kB extensions/constellation/roles.ts
+npm notice 5.2kB extensions/constellation/transport.ts
+npm notice 1.2kB package.json
+npm notice 1.9kB skills/architect/references/design-red-flags.md
+npm notice 3.0kB skills/architect/references/rationale-template.md
+npm notice 3.1kB skills/architect/references/runner-prompt.md
+npm notice 5.4kB skills/architect/SKILL.md
+npm notice 4.6kB skills/arena/SKILL.md
+npm notice 7.6kB skills/automate-me/SKILL.md
+npm notice 4.0kB skills/blast-radius/SKILL.md
+npm notice 267B skills/bro/SKILL.md
+npm notice 1.3kB skills/constellation-mode/SKILL.md
+npm notice 2.9kB skills/create-verification-skill/references/feature-map-example/create-note.md
+npm notice 2.6kB skills/create-verification-skill/references/feature-map-example/README.md
+npm notice 3.5kB skills/create-verification-skill/references/feature-map-example/search.md
+npm notice 5.9kB skills/create-verification-skill/SKILL.md
+npm notice 4.4kB skills/figure-it-out/SKILL.md
+npm notice 3.1kB skills/how/references/explainer-prompt.md
+npm notice 2.7kB skills/how/references/explorer-prompt.md
+npm notice 3.0kB skills/how/SKILL.md
+npm notice 5.4kB skills/interrogate/references/code-quality-review.md
+npm notice 3.5kB skills/interrogate/references/lead-judgment.md
+npm notice 2.8kB skills/interrogate/references/reviewer-prompt.md
+npm notice 5.1kB skills/interrogate/references/rubric.md
+npm notice 4.5kB skills/interrogate/SKILL.md
+npm notice 5.0kB skills/maintain-verification-skill/SKILL.md
+npm notice 2.6kB skills/no-comments/SKILL.md
+npm notice 809B skills/poteto-mode/playbooks/authoring-a-skill.md
+npm notice 1.9kB skills/poteto-mode/playbooks/autonomous-run.md
+npm notice 5.9kB skills/poteto-mode/playbooks/autopilot-full.md
+npm notice 5.2kB skills/poteto-mode/playbooks/autopilot-stack.md
+npm notice 8.4kB skills/poteto-mode/playbooks/babysit.md
+npm notice 2.5kB skills/poteto-mode/playbooks/bug-fix.md
+npm notice 2.5kB skills/poteto-mode/playbooks/eval.md
+npm notice 3.1kB skills/poteto-mode/playbooks/feature.md
+npm notice 4.2kB skills/poteto-mode/playbooks/hillclimb.md
+npm notice 928B skills/poteto-mode/playbooks/investigation.md
+npm notice 12.2kB skills/poteto-mode/playbooks/multi-phase-plan.md
+npm notice 5.2kB skills/poteto-mode/playbooks/opening-a-pr.md
+npm notice 17.1kB skills/poteto-mode/playbooks/orchestrate.md
+npm notice 1.2kB skills/poteto-mode/playbooks/pause-safely.md
+npm notice 3.1kB skills/poteto-mode/playbooks/perf-issue.md
+npm notice 2.2kB skills/poteto-mode/playbooks/prototype.md
+npm notice 3.3kB skills/poteto-mode/playbooks/refactoring.md
+npm notice 1.2kB skills/poteto-mode/playbooks/runtime-forensics.md
+npm notice 1.6kB skills/poteto-mode/playbooks/session-pickup.md
+npm notice 4.9kB skills/poteto-mode/playbooks/shipping.md
+npm notice 1.9kB skills/poteto-mode/playbooks/trace-forensics.md
+npm notice 1.2kB skills/poteto-mode/playbooks/visual-parity.md
+npm notice 3.0kB skills/poteto-mode/playbooks/worktree-cleanup.md
+npm notice 9.6kB skills/poteto-mode/references/bugbot-triage.md
+npm notice 1.7kB skills/poteto-mode/scripts/bootstrap.ts
+npm notice 6.7kB skills/poteto-mode/scripts/bun.lock
+npm notice 7.6kB skills/poteto-mode/scripts/check-plan.mjs
+npm notice 18.4kB skills/poteto-mode/scripts/orch/orch.test.ts
+npm notice 15.5kB skills/poteto-mode/scripts/orch/orch.ts
+npm notice 42.9kB skills/poteto-mode/scripts/orch/store.ts
+npm notice 349B skills/poteto-mode/scripts/package.json
+npm notice 6.2kB skills/poteto-mode/scripts/watch-pr/cli.test.ts
+npm notice 7.0kB skills/poteto-mode/scripts/watch-pr/cli.ts
+npm notice 2.9kB skills/poteto-mode/scripts/watch-pr/fakes.test-helper.ts
+npm notice 9.1kB skills/poteto-mode/scripts/watch-pr/github.test.ts
+npm notice 24.1kB skills/poteto-mode/scripts/watch-pr/github.ts
+npm notice 12.4kB skills/poteto-mode/scripts/watch-pr/policy.test.ts
+npm notice 25.1kB skills/poteto-mode/scripts/watch-pr/policy.ts
+npm notice 7.1kB skills/poteto-mode/scripts/watch-pr/render.ts
+npm notice 270B skills/poteto-mode/scripts/watch-pr/tsconfig.json
+npm notice 2.3kB skills/poteto-mode/scripts/watch-pr/types.compile.ts
+npm notice 12.4kB skills/poteto-mode/scripts/watch-pr/types.ts
+npm notice 211B skills/poteto-mode/scripts/watch-pr/watch-pr
+npm notice 4.0kB skills/poteto-mode/scripts/worktree-audit.sh
+npm notice 18.8kB skills/poteto-mode/SKILL.md
+npm notice 1.9kB skills/principle-attack-the-premise/SKILL.md
+npm notice 1.9kB skills/principle-boundary-discipline/SKILL.md
+npm notice 2.5kB skills/principle-build-the-lever/SKILL.md
+npm notice 2.2kB skills/principle-encode-lessons-in-structure/SKILL.md
+npm notice 1.2kB skills/principle-exhaust-the-design-space/SKILL.md
+npm notice 1.2kB skills/principle-experience-first/SKILL.md
+npm notice 1.2kB skills/principle-fix-root-causes/SKILL.md
+npm notice 1.5kB skills/principle-foundational-thinking/SKILL.md
+npm notice 1.1kB skills/principle-guard-the-context-window/SKILL.md
+npm notice 1.4kB skills/principle-laziness-protocol/SKILL.md
+npm notice 1.4kB skills/principle-make-operations-idempotent/SKILL.md
+npm notice 1.1kB skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md
+npm notice 2.1kB skills/principle-minimize-reader-load/SKILL.md
+npm notice 2.1kB skills/principle-model-the-domain/SKILL.md
+npm notice 1.3kB skills/principle-never-block-on-the-human/SKILL.md
+npm notice 1.1kB skills/principle-outcome-oriented-execution/SKILL.md
+npm notice 1.9kB skills/principle-prove-it-works/SKILL.md
+npm notice 844B skills/principle-redesign-from-first-principles/SKILL.md
+npm notice 1.6kB skills/principle-separate-before-serializing-shared-state/SKILL.md
+npm notice 2.0kB skills/principle-sequence-verifiable-units/SKILL.md
+npm notice 1.1kB skills/principle-subtract-before-you-add/SKILL.md
+npm notice 2.6kB skills/principle-test-behavior-not-implementation/SKILL.md
+npm notice 4.9kB skills/principle-type-system-discipline/SKILL.md
+npm notice 5.3kB skills/recall/SKILL.md
+npm notice 3.9kB skills/reflect/references/divergent-reviewer.md
+npm notice 3.3kB skills/reflect/references/judgment-reviewer.md
+npm notice 4.2kB skills/reflect/references/synthesizer.md
+npm notice 4.6kB skills/reflect/references/tooling-reviewer.md
+npm notice 4.1kB skills/reflect/SKILL.md
+npm notice 38B skills/show-me-your-work/references/decision-log-template.tsv
+npm notice 1.2kB skills/show-me-your-work/scripts/log.sh
+npm notice 5.6kB skills/show-me-your-work/SKILL.md
+npm notice 2.5kB skills/swarm/SKILL.md
+npm notice 3.5kB skills/tdd/SKILL.md
+npm notice 5.6kB skills/teach/SKILL.md
+npm notice 11.0kB skills/technical-writing/SKILL.md
+npm notice 8.9kB skills/typescript-best-practices/references/patterns.md
+npm notice 2.6kB skills/typescript-best-practices/SKILL.md
+npm notice 6.1kB skills/unslop/SKILL.md
+npm notice 7.7kB skills/why/references/epistemics.md
+npm notice 7.0kB skills/why/references/investigator-prompt.md
+npm notice 1.4kB skills/why/references/source-playbook.md
+npm notice 3.5kB skills/why/references/sources/code-archaeology.md
+npm notice 7.0kB skills/why/references/sources/databricks.md
+npm notice 5.3kB skills/why/references/sources/datadog.md
+npm notice 2.0kB skills/why/references/sources/incident-postmortem.md
+npm notice 3.0kB skills/why/references/sources/linear.md
+npm notice 2.9kB skills/why/references/sources/notion.md
+npm notice 4.9kB skills/why/references/sources/sentry.md
+npm notice 3.1kB skills/why/references/sources/slack.md
+npm notice 8.0kB skills/why/references/synthesizer-prompt.md
+npm notice 10.1kB skills/why/SKILL.md
+npm notice Tarball Details
+npm notice name: @aarsh21/pi-constellation
+npm notice version: 0.1.0
+npm notice filename: aarsh21-pi-constellation-0.1.0.tgz
+npm notice package size: 209.4 kB
+npm notice unpacked size: 623.3 kB
+npm notice shasum: 536a3c66fa84e321fedd490e5827b6b532e7a437
+npm notice integrity: sha512-ybqOMqpvVU0lV[...]WtEN4ATlWQK+Q==
+npm notice total files: 130
+npm notice
+aarsh21-pi-constellation-0.1.0.tgz

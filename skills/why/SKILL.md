@@ -75,12 +75,12 @@ Source control is always available through git and `gh`. For the other six, clas
 
 Aim for a complete **coverage map**, not a minimal one. Document the null, don't skip the search.
 
-Launch all matching investigators in a single message so they run concurrently. Don't ask one agent to cover multiple MCPs.
+Launch all matching investigators with one `constellation_delegate` call per category. Independent calls may be launched in parallel. Don't ask one agent to cover multiple MCPs.
 
-Subagent config (each):
-- `agent`: `poteto-agent`
-- `model`: your configured why-investigators model (default `inherit-parent`)
-- use a normal Pi child process. **Do not use restricted-tool mode.** It strips MCP access, which disables MCP-backed investigators entirely. Investigators still shouldn't write anything. That's a posture, not a sandbox.
+Delegate config for each:
+- `role`: `'worker'`
+- `model`: omit by default; choose an authenticated ID from `constellation_catalog({})` only when explicit diversity matters
+- use the normal T3-owned Pi child context. Investigators still shouldn't write anything. That's a posture, not a sandbox.
 
 Each investigator gets:
 1. The base prompt from `references/investigator-prompt.md`
@@ -120,11 +120,11 @@ If your scope assessment suggests a single-commit trivial target where the PR de
 
 ## Step 4. Synthesize
 
-Spawn one synthesizer subagent:
+Spawn one synthesizer with `constellation_delegate`:
 
-- `agent`: `poteto-agent`
-- `model`: your configured why-synthesizer model (default `inherit-parent`)
-- use a normal Pi child process. The synthesizer's quality check spot-verifies citations, which can require MCP access. Tool availability varies by Pi configuration.
+- `role`: `'worker'`
+- `model`: omit by default; choose an authenticated ID from `constellation_catalog({})` only when explicit diversity matters
+- use the normal T3-owned Pi child context. The synthesizer's quality check spot-verifies citations, which can require MCP access. Tool availability varies by Pi configuration.
 
 The synthesizer gets:
 1. The investigator findings, including any null results and any categories skipped with justification
@@ -150,7 +150,7 @@ After the Sources Consulted block, if the user's `why` question is a precursor t
 ## Reference Files
 
 - `references/epistemics.md`. Confidence tiers and phrasing guide. The synthesizer must follow it.
-- `references/investigator-prompt.md`. Base prompt template for investigator subagents.
+- `references/investigator-prompt.md`. Base prompt template for investigator delegates.
 - `references/source-playbook.md`. Index pointing at the category playbooks below.
 - `references/sources/*.md`. One self-contained example playbook per category, plus cross-cutting `incident-postmortem.md`. Give an investigator the single file that matches its category and adapt it to the available MCP.
-- `references/synthesizer-prompt.md`. Prompt template for the synthesizer subagent, including the output format.
+- `references/synthesizer-prompt.md`. Prompt template for the synthesizer delegate, including the output format.

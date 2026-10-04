@@ -19,31 +19,31 @@ When in doubt, take the simple path.
 
 ## Step 2a. Explore (complex questions only)
 
-Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Spawn all explorers in a single message:
+Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Spawn explorers with one `constellation_delegate` call per angle. Independent calls may be launched in parallel.
 
-- `agent`: `poteto-agent`
-- `model`: your configured how-explorer model (default `inherit-parent`)
-- do not grant write/edit tools
+- `role`: `'worker'`
+- `model`: omit by default; choose an authenticated ID from `constellation_catalog({})` only when explicit diversity matters
+- task says read-only exploration, no file edits
 
 Each explorer gets the prompt in `references/explorer-prompt.md` with its angle filled in. Then go to Step 3.
 
 ## Step 2b. Direct Explain (simple questions)
 
-Spawn one subagent that explores and explains in one pass:
+Spawn one Constellation delegate that explores and explains in one pass:
 
-- `agent`: `poteto-agent`
-- `model`: your configured how-explainer model (default `inherit-parent`)
-- do not grant write/edit tools
+- `role`: `'worker'`
+- `model`: omit by default; choose an authenticated ID from `constellation_catalog({})` only when explicit diversity matters
+- task says read-only exploration, no file edits
 
 Build its prompt from `references/explainer-prompt.md` without the explorer-findings section. Go to Step 4.
 
 ## Step 3. Synthesize (complex questions only)
 
-Once all explorers have returned, spawn one subagent to synthesize their findings into one explanation:
+Once all explorers have returned, spawn one Constellation delegate to synthesize their findings into one explanation:
 
-- `agent`: `poteto-agent`
-- `model`: your configured how-explainer model (default `inherit-parent`)
-- do not grant write/edit tools
+- `role`: `'worker'`
+- `model`: omit by default; choose an authenticated ID from `constellation_catalog({})` only when explicit diversity matters
+- task says read-only synthesis, no file edits
 
 Build its prompt from `references/explainer-prompt.md` with every explorer's findings filled in.
 

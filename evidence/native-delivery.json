@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "source": "T3 durable thread activity, inspected independently of the model's self-report",
+  "threadId": "thread:delegated-task:command%3Amcp%3Adce547b0-feb6-46db-aae1-7f841900b750%3Adelegate-task%3Aconstellation-native-installed-e2e-1",
+  "providerInstanceId": "pi",
+  "model": "openai-codex/gpt-5.5",
+  "runCount": 2,
+  "assertions": [
+    "Installed Constellation tools invoked in native T3-managed Pi",
+    "constellation_delegate calls T3 delegate_task",
+    "Child completion is projected as a subagent item",
+    "Automatic completion notification starts a second parent run",
+    "No status or wait calls before the automatic wake"
+  ],
+  "limitation": "The parent fetched the completed summary once with task_status AFTER its automatic wake. This is not a polling loop. No GUI rendering assertion is made.",
+  "runs": [
+    {
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:2",
+      "ordinal": 2,
+      "status": "completed",
+      "providerInstanceId": "pi",
+      "model": "openai-codex/gpt-5.5",
+      "requestedAt": "2026-10-04T09:33:50.708Z",
+      "startedAt": "2026-10-04T09:33:50.718Z",
+      "completedAt": "2026-10-04T09:34:01.306Z"
+    },
+    {
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:1",
+      "ordinal": 1,
+      "status": "completed",
+      "providerInstanceId": "pi",
+      "model": "openai-codex/gpt-5.5",
+      "requestedAt": "2026-10-04T09:33:32.737Z",
+      "startedAt": "2026-10-04T09:33:33.044Z",
+      "completedAt": "2026-10-04T09:33:45.441Z"
+    }
+  ],
+  "timeline": [
+    {
+      "position": 2,
+      "type": "dynamic_tool",
+      "title": "constellation_roles",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:33:37.809Z"
+    },
+    {
+      "position": 3,
+      "type": "dynamic_tool",
+      "title": "constellation_catalog",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:33:37.834Z"
+    },
+    {
+      "position": 4,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__orchestrator_capabilities",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:33:37.828Z"
+    },
+    {
+      "position": 5,
+      "type": "dynamic_tool",
+      "title": "constellation_delegate",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:33:41.797Z"
+    },
+    {
+      "position": 6,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__orchestrator_capabilities",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:33:41.767Z"
+    },
+    {
+      "position": 7,
+      "type": "subagent",
+      "title": "Constellation native automatic-delivery probe",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:33:50.697Z",
+      "text": "CONSTELLATION_NATIVE_CHILD_OK"
+    },
+    {
+      "position": 8,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__delegate_task",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:33:41.797Z"
+    },
+    {
+      "position": 9,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:33:45.372Z",
+      "text": "Launched one constellation child.\n\ntaskId: `node:delegated-task:command%3Amcp%3A8d20abe4-5f01-47ea-93d8-eed05227bc81%3Adelegate-task%3Aconstellation-native-auto-delivery-child-v1`"
+    },
+    {
+      "position": 11,
+      "type": "notification",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:2",
+      "timestamp": "2026-10-04T09:33:50.708Z",
+      "text": "Delegated task \"Constellation native automatic-delivery probe\" finished"
+    },
+    {
+      "position": 13,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__task_status",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:2",
+      "timestamp": "2026-10-04T09:33:55.916Z"
+    },
+    {
+      "position": 14,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-native-installed-e2e-1:ordinal:2",
+      "timestamp": "2026-10-04T09:34:01.239Z",
+      "text": "CONSTELLATION_NATIVE_DELIVERY_OK {\"taskId\":\"node:delegated-task:command%3Amcp%3A8d20abe4-5f01-47ea-93d8-eed05227bc81%3Adelegate-task%3Aconstellation-native-auto-delivery-child-v1\",\"childThreadId\":\"thread:delegated-task:command%3Amcp%3A8d20abe4-5f01-47ea-93d8-eed05227bc81%3Adelegate-task%3Aconstellation-native-auto-delivery-child-v1\",\"childSummary\":\"CONSTELLATION_NATIVE_CHILD_OK\",\"observedDelivery\":\"automatic T3 wake; no status/wait polling\"}"
+    }
+  ]
+}

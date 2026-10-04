@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Interrogate
 
-Spawn one reviewer per configured model to adversarially review code changes. Each model gets the same prompt and rubric. The adversarial signal comes from model diversity, not assigned personas.
+Spawn one reviewer per chosen authenticated model to adversarially review code changes. Each reviewer gets the same prompt and rubric. The adversarial signal comes from model diversity when available, not assigned personas.
 
 The deliverable is a synthesized verdict. Do NOT auto-apply changes.
 
@@ -33,21 +33,14 @@ Write one clear paragraph. If you're unsure about the intent, ask the user befor
 
 ## Step 3, Spawn Reviewers
 
-Launch all reviewers through one parallel `subagent` call. Use the `interrogate reviewers` list from `~/.pi/agent/pstack/models.json` when present, one reviewer per entry, extending or shrinking the Reviewer A/B/C/D labels below to the configured entry count. Otherwise use the table defaults.
-
-| Subagent | Default model |
-|----------|---------------|
-| Reviewer A | `inherit-parent` |
-| Reviewer B | `inherit-parent` |
-| Reviewer C | `inherit-parent` |
-| Reviewer D | `inherit-parent` |
+Launch reviewers with one `constellation_delegate` call per reviewer. Independent calls may be launched in parallel. Use `constellation_catalog({})` to choose authenticated model IDs when explicit diversity matters. Otherwise omit `model` so T3 inherits the parent Pi model when available, or uses the Pi default. Start with four Reviewer A/B/C/D labels unless the user requested a different count.
 
 For each reviewer:
-- `agent`: `poteto-agent`
-- `model`: the configured `interrogate reviewers` entry, or the table default with no configured line
-- do not grant write/edit tools
+- `role`: `'worker'`
+- `model`: an authenticated catalog model ID, or omit it
+- task says read-only review, no file edits
 
-If a model slug is rejected as unresolvable when you try to spawn the subagent, pick another authenticated model from the session's model catalog, choose the closest equivalent (prefer the highest-reasoning tier of the same family), spawn with the valid slug, and open a separate PR to update the configured value or default table. Do not block the review on the slug issue. If the configured value is `inherit-parent` or `auto`, omit `model` instead. Never treat those aliases as broken slugs or enter this fallback for them.
+If a model ID is rejected as unresolvable, pick another authenticated model from `constellation_catalog({})`, choose the closest equivalent, and spawn with the valid ID. Do not block the review on a stale ID. Never use old aliases or legacy model tables.
 
 Read `references/reviewer-prompt.md` and fill in the template with:
 1. The stated intent

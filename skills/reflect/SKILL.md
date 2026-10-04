@@ -1,6 +1,6 @@
 ---
 name: reflect
-description: Spawn three parallel review subagents over the active transcript, surface learnings, and route each to a concrete edit on an existing skill. Use when the user says reflect.
+description: Spawn three parallel Constellation review delegates over the active transcript, surface learnings, and route each to a concrete edit on an existing skill. Use when the user says reflect.
 disable-model-invocation: true
 ---
 
@@ -20,19 +20,19 @@ The active transcript is `$PI_SESSION_FILE`. Use it directly when present. To ch
 
 ### 2. Spawn three reviewers in parallel
 
-One parallel `subagent` call with three tasks, each using `agent: "poteto-agent"`, `role: "reflect judgment, divergent, synthesizer"`, and a prompt that forbids file writes. Reviewers may use MCPs available to their Pi child process for context lookups (tickets, chat threads, observability traces referenced in the transcript). The parent applies edits.
+Call `constellation_delegate` once per reviewer. Independent calls may be launched in parallel. Use `role: 'worker'`, omit `model` by default, and choose authenticated IDs from `constellation_catalog({})` only when explicit model diversity matters. Each prompt forbids file writes. Reviewers may use MCPs available to their Pi child context for context lookups (tickets, chat threads, observability traces referenced in the transcript). The parent applies edits.
 
-| Lens | `model` | Prompt template |
+| Lens | Model | Prompt template |
 |---|---|---|
-| Judgment | your configured reflect-judgment model (default `inherit-parent`) | `references/judgment-reviewer.md` |
-| Tooling | your configured reflect-tooling model (default `inherit-parent`) | `references/tooling-reviewer.md` |
-| Divergent | your configured reflect-judgment model (default `inherit-parent`) | `references/divergent-reviewer.md` |
+| Judgment | omitted by default, or authenticated catalog ID | `references/judgment-reviewer.md` |
+| Tooling | omitted by default, or authenticated catalog ID | `references/tooling-reviewer.md` |
+| Divergent | omitted by default, or authenticated catalog ID | `references/divergent-reviewer.md` |
 
-Pass each template verbatim, substituting the transcript path or digest where marked. Reviewers return findings in the `subagent` result.
+Pass each template verbatim, substituting the transcript path or digest where marked. Reviewers return findings in their Constellation task results.
 
 ### 3. Synthesize
 
-One `subagent` call using `agent: "poteto-agent"` and `role: "reflect judgment, divergent, synthesizer"`. The synthesizer may use MCPs available to its Pi child process to spot-check citations. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
+One `constellation_delegate` call using `role: 'worker'`. The synthesizer may use MCPs available to its Pi child context to spot-check citations. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
 
 ### 4. Structural enforcement check
 

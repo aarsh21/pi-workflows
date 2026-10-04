@@ -1,6 +1,6 @@
 # Explorer Prompt Template
 
-Build each explorer subagent's prompt from this template. Fill in the placeholders.
+Build each explorer delegate's prompt from this template. Fill in the placeholders.
 
 ---
 
