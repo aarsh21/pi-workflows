@@ -75,11 +75,11 @@ Source control is always available through git and `gh`. For the other six, clas
 
 Aim for a complete **coverage map**, not a minimal one. Document the null, don't skip the search.
 
-Launch all matching investigators with one `constellation_delegate` call per category. Independent calls may be launched in parallel. Don't ask one agent to cover multiple MCPs.
+Launch all matching investigators with one `pstack_delegate` call per category. Independent calls may be launched in parallel. Don't ask one agent to cover multiple MCPs.
 
 Delegate config for each:
 - `role`: `'worker'`
-- `model`: omit by default; choose an authenticated ID from `constellation_catalog({})` only when explicit diversity matters
+- `model`: omit by default; choose an authenticated ID from `pstack_catalog({})` only when explicit diversity matters
 - use the normal T3-owned Pi child context. Investigators still shouldn't write anything. That's a posture, not a sandbox.
 
 Each investigator gets:
@@ -120,10 +120,10 @@ If your scope assessment suggests a single-commit trivial target where the PR de
 
 ## Step 4. Synthesize
 
-Spawn one synthesizer with `constellation_delegate`:
+Spawn one synthesizer with `pstack_delegate`:
 
 - `role`: `'worker'`
-- `model`: omit by default; choose an authenticated ID from `constellation_catalog({})` only when explicit diversity matters
+- `model`: omit by default; choose an authenticated ID from `pstack_catalog({})` only when explicit diversity matters
 - use the normal T3-owned Pi child context. The synthesizer's quality check spot-verifies citations, which can require MCP access. Tool availability varies by Pi configuration.
 
 The synthesizer gets:

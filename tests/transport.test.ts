@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { callT3, decodeT3Result, parseCatalog, resolveT3Tool, selectPiTarget } from "../extensions/constellation/transport.ts";
+import { callT3, decodeT3Result, parseCatalog, resolveT3Tool, selectPiTarget } from "../extensions/pstack/transport.ts";
 
 const catalog = {
   inheritedProviderInstanceId: "pi", inheritedModel: "test-provider/parent-model",

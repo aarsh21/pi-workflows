@@ -1,6 +1,6 @@
 ---
 name: comment-sicko
-description: Pi Constellation report-only comment reviewer. Behavior is requested by prompt, not enforced as a permission policy.
+description: Report-only comment reviewer. These instructions do not enforce a permission policy.
 ---
 
 # Comment Sicko

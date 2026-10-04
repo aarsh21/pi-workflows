@@ -7,13 +7,13 @@ import { resolve } from "node:path";
 import { createAgentSession, DefaultResourceLoader, getAgentDir, SessionManager, SettingsManager } from "@earendil-works/pi-coding-agent";
 import { createAssistantMessageEventStream, type AssistantMessage, type JsonObject, type ToolCall } from "@earendil-works/pi-ai";
 import { Type } from "typebox";
-import constellation from "../extensions/constellation/index.ts";
-import { PACKAGE_ROOT } from "../extensions/constellation/roles.ts";
-import { callT3, decodeT3Result } from "../extensions/constellation/transport.ts";
+import pstack from "../extensions/pstack/index.ts";
+import { PACKAGE_ROOT } from "../extensions/pstack/roles.ts";
+import { callT3, decodeT3Result } from "../extensions/pstack/transport.ts";
 
 assert.ok(process.env.T3_MCP_URL && process.env.T3_MCP_BEARER_TOKEN, "Run from a T3-managed Pi session; never paste credentials into a report.");
 const runId = randomUUID();
-const fixtureDir = await mkdtemp(resolve(tmpdir(), "constellation-e2e-"));
+const fixtureDir = await mkdtemp(resolve(tmpdir(), "pstack-e2e-"));
 const sumPath = resolve(fixtureDir, "sum.mjs");
 const testPath = resolve(fixtureDir, "sum.test.mjs");
 const commentsPath = resolve(fixtureDir, "comments.mjs");
@@ -42,8 +42,8 @@ const settings = SettingsManager.inMemory({ packages: [], extensions: [], defaul
 const loader = new DefaultResourceLoader({
   cwd: fixtureDir, agentDir: getAgentDir(), settingsManager: settings,
   noExtensions: true, noSkills: true, noThemes: true, noPromptTemplates: true, noContextFiles: true,
-  additionalExtensionPaths: [process.env.CONSTELLATION_T3_BRIDGE ?? resolve(homedir(), ".t3/caches/pi-t3-mcp-extension.ts")],
-  extensionFactories: [constellation, pi => {
+  additionalExtensionPaths: [process.env.PSTACK_T3_BRIDGE ?? resolve(homedir(), ".t3/caches/pi-t3-mcp-extension.ts")],
+  extensionFactories: [pstack, pi => {
     pi.on("tool_call", event => {
       if (event.toolName.replace(/[^a-z0-9]/gi, "").toLowerCase() === "mcpt3codedelegatetask") {
         const args = event.input as Record<string, unknown>;
@@ -51,7 +51,7 @@ const loader = new DefaultResourceLoader({
       }
     });
     pi.registerTool({
-      name: "constellation_test_wait", label: "Test-only durable wait", description: "Test-only idempotent T3 wait, not shipped in the extension.",
+      name: "pstack_test_wait", label: "Test-only durable wait", description: "Test-only idempotent T3 wait, not shipped in the extension.",
       parameters: Type.Object({ clientRequestId: Type.String() }),
       async execute(_id, params, signal, _update, ctx) {
         const request = requests.get(params.clientRequestId);
@@ -65,7 +65,7 @@ const loader = new DefaultResourceLoader({
 await loader.reload();
 const { session } = await createAgentSession({ cwd: fixtureDir, resourceLoader: loader, settingsManager: settings, sessionManager: SessionManager.inMemory() });
 await session.bindExtensions({ mode: "rpc" });
-assert.ok(session.getActiveToolNames().includes("constellation_delegate"), "Constellation is loaded in the real Pi runtime.");
+assert.ok(session.getActiveToolNames().includes("pstack_delegate"), "pi-t3-pstack is loaded in the real Pi runtime.");
 let batch: ToolCall[] = [];
 session.agent.streamFunction = model => {
   const stream = createAssistantMessageEventStream();
@@ -102,26 +102,26 @@ function decoded(value: { result: unknown; isError: boolean }) {
   const result = value.result as Parameters<typeof decodeT3Result>[0];
   return decodeT3Result({ ...result, isError: value.isError });
 }
-const launchKeys = [0, 1, 2].map(index => `constellation-e2e:${runId}:${index}`);
+const launchKeys = [0, 1, 2].map(index => `pstack-e2e:${runId}:${index}`);
 const tasks: Array<Record<string, unknown>> = [];
 let passed = false;
 try {
-  const [catalog] = await run([{ id: "catalog", name: "constellation_catalog", arguments: {} }]);
+  const [catalog] = await run([{ id: "catalog", name: "pstack_catalog", arguments: {} }]);
   const live = decoded(catalog!);
   const provider = (live.providers as Array<{ driverKind: string; canRunChildTask: boolean; models: Array<{ id: string }> }>).find(value => value.driverKind === "pi" && value.canRunChildTask);
   assert.ok(provider);
   assert.equal(live.inheritedProviderInstanceId, "pi", "Run the inheritance test from a T3 Pi parent.");
   const model = live.inheritedModel;
   assert.equal(typeof model, "string");
-  const [negative] = await run([{ id: "invalid-model", name: "constellation_delegate", arguments: { task: "No launch", model: "constellation-invalid-model" } }]);
+  const [negative] = await run([{ id: "invalid-model", name: "pstack_delegate", arguments: { task: "No launch", model: "pstack-invalid-model" } }]);
   assert.equal(negative!.isError, true);
   const launch = await run([
-    { id: "worker", name: "constellation_delegate", arguments: { role: "worker", clientRequestId: launchKeys[0]!, title: "Constellation E2E worker", task: `Synthetic integration test. You may edit ONLY ${sumPath}. Fix sum to add signed numbers. Read ${testPath} and run node --test ${testPath}. Do not edit any other file; do not delegate. Report CONSTELLATION_IMPLEMENTATION_OK only after the test passes. Do not invent the private parent-only nonce; you were not given it.` } },
-    { id: "reviewer", name: "constellation_delegate", arguments: { role: "comment-reviewer", clientRequestId: launchKeys[1]!, title: "Constellation E2E reviewer", task: `Synthetic report-only integration test. Inspect ONLY ${commentsPath}; do not edit it or any other file, do not delegate. Identify whether its comment is redundant. Finish the report with CONSTELLATION_REVIEW_OK.` } },
+    { id: "worker", name: "pstack_delegate", arguments: { role: "worker", clientRequestId: launchKeys[0]!, title: "pi-t3-pstack E2E worker", task: `Synthetic integration test. You may edit ONLY ${sumPath}. Fix sum to add signed numbers. Read ${testPath} and run node --test ${testPath}. Do not edit any other file; do not delegate. Report PSTACK_IMPLEMENTATION_OK only after the test passes. Do not invent the private parent-only nonce; you were not given it.` } },
+    { id: "reviewer", name: "pstack_delegate", arguments: { role: "comment-reviewer", clientRequestId: launchKeys[1]!, title: "pi-t3-pstack E2E reviewer", task: `Synthetic report-only integration test. Inspect ONLY ${commentsPath}; do not edit it or any other file, do not delegate. Identify whether its comment is redundant. Finish the report with PSTACK_REVIEW_OK.` } },
   ]);
   tasks.push(...launch.map(decoded));
   assert.equal(new Set(tasks.map(task => task.taskId)).size, 2);
-  const waits = await run(launchKeys.slice(0, 2).map((clientRequestId, index) => ({ id: `wait:${index}`, name: "constellation_test_wait", arguments: { clientRequestId } })));
+  const waits = await run(launchKeys.slice(0, 2).map((clientRequestId, index) => ({ id: `wait:${index}`, name: "pstack_test_wait", arguments: { clientRequestId } })));
   const completed = waits.map(decoded);
   for (const [index, value] of completed.entries()) {
     assert.equal(value.taskId, tasks[index]!.taskId, "Idempotent wait did not create a duplicate child.");
@@ -130,22 +130,22 @@ try {
     assert.equal(value.model, model, "Child model inherits the actual T3 Pi parent model.");
     assert.equal(value.waitTimedOut, false);
   }
-  assert.match(String(completed[0]!.summary), /CONSTELLATION_IMPLEMENTATION_OK/);
-  assert.match(String(completed[1]!.summary), /CONSTELLATION_REVIEW_OK/);
+  assert.match(String(completed[0]!.summary), /PSTACK_IMPLEMENTATION_OK/);
+  assert.match(String(completed[1]!.summary), /PSTACK_REVIEW_OK/);
   const testOutput = execFileSync(process.execPath, ["--test", testPath], { encoding: "utf8" });
   assert.notEqual(await hash(sumPath), before);
   assert.equal(await hash(commentsPath), commentsBefore, "Report-only role left the fixture unchanged.");
-  const [cancelLaunch] = await run([{ id: "cancel-launch", name: "constellation_delegate", arguments: { task: `Cancellation fixture. Read the Constellation workflow skills and explain their principles in detail. Do not edit files or delegate.`, title: "Constellation E2E cancellation", clientRequestId: launchKeys[2]! } }]);
+  const [cancelLaunch] = await run([{ id: "cancel-launch", name: "pstack_delegate", arguments: { task: `Cancellation fixture. Read the pi-t3-pstack workflow skills and explain their principles in detail. Do not edit files or delegate.`, title: "pi-t3-pstack E2E cancellation", clientRequestId: launchKeys[2]! } }]);
   const cancelTask = decoded(cancelLaunch!);
   tasks.push(cancelTask);
-  const [cancel] = await run([{ id: "cancel", name: "constellation_cancel", arguments: { taskId: String(cancelTask.taskId), reason: "Integration test cancellation" } }]);
+  const [cancel] = await run([{ id: "cancel", name: "pstack_cancel", arguments: { taskId: String(cancelTask.taskId), reason: "Integration test cancellation" } }]);
   const cancelReceipt = decoded(cancel!);
   assert.ok(["cancel_requested", "cancelled", "interrupted"].includes(String(cancelReceipt.status)), JSON.stringify(cancelReceipt));
-  const [cancelWait] = await run([{ id: "cancel-wait", name: "constellation_test_wait", arguments: { clientRequestId: launchKeys[2]! } }]);
+  const [cancelWait] = await run([{ id: "cancel-wait", name: "pstack_test_wait", arguments: { clientRequestId: launchKeys[2]! } }]);
   const cancelled = decoded(cancelWait!);
   assert.equal(cancelled.waitTimedOut, false);
   assert.ok(["cancelled", "interrupted"].includes(String(cancelled.status)), JSON.stringify(cancelled));
-  const [status] = await run([{ id: "status", name: "constellation_status", arguments: { taskId: String(tasks[0]!.taskId) } }]);
+  const [status] = await run([{ id: "status", name: "pstack_status", arguments: { taskId: String(tasks[0]!.taskId) } }]);
   assert.equal(decoded(status!).status, "completed");
   const evidence = {
     schemaVersion: 1, runId, timestamp: new Date().toISOString(), passed: true,
@@ -158,7 +158,7 @@ try {
     fixture: { beforeSha256: before, afterSha256: await hash(sumPath), source: await readFile(sumPath, "utf8"), test: await readFile(testPath, "utf8"), testOutput },
     trace,
   };
-  const evidencePath = resolve(process.env.CONSTELLATION_EVIDENCE_PATH ?? "evidence/live-e2e.json");
+  const evidencePath = resolve(process.env.PSTACK_EVIDENCE_PATH ?? "evidence/live-e2e.json");
   await mkdir(resolve(evidencePath, ".."), { recursive: true });
   await writeFile(evidencePath, JSON.stringify(evidence, null, 2) + "\n");
   passed = true;
@@ -166,7 +166,7 @@ try {
 } finally {
   if (!passed && tasks.length) {
     for (const task of tasks) {
-      await run([{ id: `cleanup:${String(task.taskId)}`, name: "constellation_cancel", arguments: { taskId: String(task.taskId), reason: "Failed integration-test cleanup" } }]).catch(() => undefined);
+      await run([{ id: `cleanup:${String(task.taskId)}`, name: "pstack_cancel", arguments: { taskId: String(task.taskId), reason: "Failed integration-test cleanup" } }]).catch(() => undefined);
     }
   }
   session.dispose();

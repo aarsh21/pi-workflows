@@ -1,15 +1,15 @@
-# Pi Constellation
+# pi-t3-pstack
 
 p-stack workflows with T3 Code-managed Pi subagents.
 
-Constellation keeps the upstream workflow skills, playbooks, principles, and two role prompts. T3 Code starts the Pi children, shows them in its Agents view, and notifies the parent when they finish.
+The package includes the upstream workflow skills, playbooks, principles, and two role prompts. T3 Code starts the Pi children, shows them in its Agents view, and notifies the parent when they finish.
 
 ## Install
 
 Requirements: Pi 1.0+, Node 22+, and a T3 Code version with the native Pi provider and `delegate_task` MCP tools. Enable Pi in T3 Settings and select it for your thread. Your Pi authentication, models, skills, and extensions carry over.
 
 ```bash
-pi install git:github.com/aarsh21/pi-constellation@v0.1.2
+pi install git:github.com/aarsh21/pi-t3-pstack@v0.2.0
 ```
 
 Restart the T3 Pi session or run `/reload`. T3 injects its session-scoped MCP transport; do not copy tokens or create a global T3 credential file.
@@ -20,17 +20,17 @@ If replacing the upstream p-stack package, remove it to avoid conflicting workfl
 pi remove npm:@casualjim/pi-pstack
 ```
 
-The full workflow also needs a task tracker with `set_tasks`, `update_task`, and `list_task`. Constellation does not bundle a task tracker. Keep an existing compatible one. T3 does not render its terminal widgets.
+The full workflow also needs a task tracker with `set_tasks`, `update_task`, and `list_task`. pi-t3-pstack does not bundle a task tracker. Keep an existing compatible one. T3 does not render its terminal widgets.
 
 ## Use
 
 ```text
-/constellation Fix the login regression and verify it
-/constellation off
-/constellation-check
+/pstack Fix the login regression and verify it
+/pstack off
+/pstack-check
 ```
 
-`/constellation` enables the workflow for the current session and passes your task to `/skill:constellation-mode`. Mode is restored from the active session branch. `/poteto-mode` remains a compatibility alias. `/constellation-check` checks tool registration, not server health; ask Pi to call `constellation_catalog` to check live availability.
+`/pstack` enables the workflow for the current session and passes your task to `/skill:pstack-mode`. Mode is restored from the active session branch. `/poteto-mode` remains a compatibility alias. `/pstack-check` checks tool registration, not server health; ask Pi to call `pstack_catalog` to check live availability.
 
 You can also choose a skill from T3's `$` menu, or use:
 
@@ -46,16 +46,16 @@ The adapter exposes five tools:
 
 | Tool | Purpose |
 | --- | --- |
-| `constellation_catalog({})` | Live T3 provider/model catalog and supported options. |
-| `constellation_roles({})` | Bundled `worker` and `comment-reviewer` roles. |
-| `constellation_delegate({task, ...})` | Launch one asynchronous Pi child; return `taskId`. |
-| `constellation_status({taskId})` | Retrieve a result when needed; never use a polling loop. |
-| `constellation_cancel({taskId, reason?})` | Request cancellation and suppress automatic delivery. |
+| `pstack_catalog({})` | Live T3 provider/model catalog and supported options. |
+| `pstack_roles({})` | Bundled `worker` and `comment-reviewer` roles. |
+| `pstack_delegate({task, ...})` | Launch one asynchronous Pi child; return `taskId`. |
+| `pstack_status({taskId})` | Retrieve a result when needed; never use a polling loop. |
+| `pstack_cancel({taskId, reason?})` | Request cancellation and suppress automatic delivery. |
 
 Example model-facing call:
 
 ```typescript
-constellation_delegate({
+pstack_delegate({
   title: "Investigate retries",
   role: "worker",
   task: "Read src/retry.ts and its tests. Explain the regression; do not edit files.",
@@ -68,7 +68,7 @@ Each call launches one task. Independent calls may run in parallel. Dependent wo
 
 ## Boundaries
 
-- Run through T3's Pi provider for delegation. Outside T3, workflow skills still load, but delegation fails clearly; Constellation does not start children outside T3.
+- Run through T3's Pi provider for delegation. Outside T3, workflow skills still load, but delegation fails clearly; pi-t3-pstack does not start children outside T3.
 - Children get fresh context and share the caller's checkout. Delegation does **not** create worktrees. Partition parallel writes into disjoint scopes.
 - Roles are prompt instructions, **not** enforced read-only policies or tool allowlists. T3 permission modes govern child tool calls. Untrusted code and installed extensions still run with your account's access.
 - Cancellation is asynchronous. `cancel_requested` acknowledges a request, not completed interruption. A terminal task remains readable.
@@ -77,7 +77,7 @@ Each call launches one task. Independent calls may run in parallel. Dependent wo
 
 ## Verification
 
-See [the evidence report](https://github.com/aarsh21/pi-constellation/blob/constellation/evidence/README.md), [real child-run receipts](https://github.com/aarsh21/pi-constellation/blob/constellation/evidence/live-e2e.json), and [GitHub-installed release timeline](https://github.com/aarsh21/pi-constellation/blob/constellation/evidence/installed-release.json).
+See [the evidence report](https://github.com/aarsh21/pi-t3-pstack/blob/pstack/evidence/README.md), [real child-run receipts](https://github.com/aarsh21/pi-t3-pstack/blob/pstack/evidence/live-e2e.json), and [GitHub-installed release timeline](https://github.com/aarsh21/pi-t3-pstack/blob/pstack/evidence/installed-release.json).
 
 ```bash
 npm ci --ignore-scripts
@@ -89,7 +89,7 @@ npm run check:pack
 
 To rerun the paid/live integration test, ask a T3-managed Pi agent to run `npm run test:live` from this checkout. Its process must already have T3's session-scoped environment. The test uses a real Pi SDK agent loop with a deterministic parent fixture stream, then launches actual T3-owned Pi model processes. It verifies a real code fix, independently runs the test, checks the report-only fixture, exercises stable retries and cancellation, and writes a JSON receipt. It does not mock child results or claim to test GUI rendering.
 
-The live suite omits `model` entirely and asserts that children use the actual T3 Pi parent's model. It has no model-override environment variable. `CONSTELLATION_T3_BRIDGE` can point to T3's generated Pi bridge when it is not under `~/.t3/caches`. `CONSTELLATION_EVIDENCE_PATH` changes the receipt path. Never publish credentials or general conversation logs.
+The live suite omits `model` entirely and asserts that children use the actual T3 Pi parent's model. It has no model-override environment variable. `PSTACK_T3_BRIDGE` can point to T3's generated Pi bridge when it is not under `~/.t3/caches`. `PSTACK_EVIDENCE_PATH` changes the receipt path. Never publish credentials or general conversation logs.
 
 The separate native smoke test used an actual T3-managed LLM parent and child. The durable T3 timeline proves that the parent ended its first turn, received an automatic completion notification, and began a second turn. One summary retrieval occurred **after** that wake, not in a polling loop.
 

@@ -64,7 +64,7 @@ Fix the log, not the story. If the work diverged from what a row claims, the row
 
 ## Cross-model review of the trail
 
-Before handing back, spawn a Constellation reviewer on a different model family from the one that did the work when `constellation_catalog({})` offers an authenticated alternative. Otherwise omit `model` and state that the review was context-isolated, not cross-family. Self-review is not a substitute. The reviewer reads the audit trail and the run's transcript, then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky.
+Before handing back, spawn a pi-t3-pstack reviewer on a different model family from the one that did the work when `pstack_catalog({})` offers an authenticated alternative. Otherwise omit `model` and state that the review was context-isolated, not cross-family. Self-review is not a substitute. The reviewer reads the audit trail and the run's transcript, then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky.
 
 - Decisions logged with weak or absent evidence.
 - Verification steps skipped or claimed without proof in the transcript.

@@ -89,7 +89,7 @@ export function selectPiTarget(catalog: Catalog, model?: string, options?: Recor
   const selectedModel = model ?? (inherited ? catalog.inheritedModel : undefined);
   if (!selectedModel) throw new Error("T3 did not report the parent Pi model; refusing to choose a different default. Refresh the Pi provider.");
   const entry = provider.models.find(candidate => candidate.id === selectedModel);
-  if (!entry) throw new Error(`Pi model ${selectedModel} is not in T3's live catalog. Use constellation_catalog to choose an exact ID.`);
+  if (!entry) throw new Error(`Pi model ${selectedModel} is not in T3's live catalog. Use pstack_catalog to choose an exact ID.`);
   for (const [id, value] of Object.entries(options ?? {})) {
     const option = entry.options?.find(candidate => candidate.id === id);
     if (!option || (option.type === "boolean" ? typeof value !== "boolean" : typeof value !== "string") ||

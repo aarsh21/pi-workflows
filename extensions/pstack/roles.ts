@@ -12,12 +12,10 @@ export type Role = keyof typeof ROLES;
 export async function buildTask(role: Role, task: string): Promise<string> {
   if (!task.trim()) throw new Error("A delegated task cannot be empty.");
   const definition = ROLES[role];
-  if (!definition) throw new Error(`Unknown Constellation role: ${role}`);
+  if (!definition) throw new Error(`Unknown pi-t3-pstack role: ${role}`);
   const markdown = await readFile(resolve(PACKAGE_ROOT, "agents", definition.file), "utf8");
   const body = markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, "").trim();
   return [
-    `You are the Constellation ${role} agent.`,
-    `Bundled skills are at ${resolve(PACKAGE_ROOT, "skills")}. Read referenced SKILL.md files from that directory.`,
     "Use T3 Code for delegation. Create additional agents only if the task asks you to.",
     "You do not have the parent's conversation history. You share its checkout. Follow the task's file scope and verification requirements.",
     "Role instructions:", body, "User task:", task,

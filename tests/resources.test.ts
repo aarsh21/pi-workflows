@@ -4,7 +4,7 @@ import { mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
-import { buildTask, PACKAGE_ROOT, ROLES } from "../extensions/constellation/roles.ts";
+import { buildTask, PACKAGE_ROOT, ROLES } from "../extensions/pstack/roles.ts";
 
 async function markdownFiles(directory: string): Promise<string[]> {
   const paths: string[] = [];
@@ -29,13 +29,13 @@ test("child prompts give plain delegation instructions without legacy backend re
   for (const role of Object.keys(ROLES) as Array<keyof typeof ROLES>) {
     const prompt = await buildTask(role, "Read the assigned file.");
     assert.match(prompt, /Use T3 Code for delegation\. Create additional agents only if the task asks you to\./);
-    assert.doesNotMatch(prompt, /herdr|detached Pi|worktree sandbox/i);
+    assert.doesNotMatch(prompt, /herdr|detached Pi|worktree sandbox|constellation|Bundled skills are at|You are the .* agent/i);
     assert.match(prompt, /You share its checkout\./);
   }
 });
 
 test("plan validator accepts the migrated model-omission phrase rather than obsolete aliases", async () => {
-  const directory = await mkdtemp(resolve(tmpdir(), "constellation-plan-"));
+  const directory = await mkdtemp(resolve(tmpdir(), "pstack-plan-"));
   const path = resolve(directory, "plan.md");
   const rule = "Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked.";
   const prefix = "# Plan\n## Program checklist\n## PR 1\n**Verify, live.** " + rule + " ";

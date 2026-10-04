@@ -1,10 +1,10 @@
-name: Constellation CI
+name: pi-t3-pstack CI
 on:
   push:
-    branches: [constellation]
+    branches: [pstack]
     tags: ['v*']
   pull_request:
-    branches: [constellation]
+    branches: [pstack]
   workflow_dispatch:
 permissions:
   contents: read

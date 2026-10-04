@@ -64,7 +64,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Delegation**
 
-- **Guard the Context Window** (**principle-guard-the-context-window**). Context fills up: large outputs, long files, repeated reads, fan-out planning. Route bulk to Constellation delegates, keep summaries in the main thread.
+- **Guard the Context Window** (**principle-guard-the-context-window**). Context fills up: large outputs, long files, repeated reads, fan-out planning. Route bulk to pi-t3-pstack delegates, keep summaries in the main thread.
 - **Never Block on the Human** (**principle-never-block-on-the-human**). Tempted to ask "should I do X?" on reversible work. Proceed, present the result, let the human course-correct.
 
 **Meta**
@@ -81,17 +81,17 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **No is an acceptable answer.** Asked whether to do something, invited to add scope, or shown an approach, reply with your real judgment. Decline, push back, or say "this doesn't earn its place" when true. A recommendation is a judgment, not a validation. Agreement is not the default, candor over sycophancy.
 
-## Constellation delegates
+## pi-t3-pstack delegates
 
-**Use `constellation_delegate` for implementation delegates and ad-hoc helpers.** This package targets T3 Code-owned Pi child tasks. The bundled roles are listed by `constellation_roles({})`: `worker` maps to `poteto-agent`, and `comment-reviewer` maps to `comment-sicko`.
+**Use `pstack_delegate` for implementation delegates and ad-hoc helpers.** This package targets T3 Code-owned Pi child tasks. The bundled roles are listed by `pstack_roles({})`: `worker` maps to `poteto-agent`, and `comment-reviewer` maps to `comment-sicko`.
 
-**Call shape.** Use `constellation_delegate({ task, title?, role?: 'worker' | 'comment-reviewer', model?, options?, clientRequestId? })`. The call is async only and starts exactly one task. Launch independent work with separate calls, which may be issued in parallel. Launch dependent work only after prior results arrive. Read status only with `constellation_status({ taskId })`. Cancel with `constellation_cancel({ taskId, reason? })`. Discover authenticated provider and model IDs with `constellation_catalog({})`.
+**Call shape.** Use `pstack_delegate({ task, title?, role?: 'worker' | 'comment-reviewer', model?, options?, clientRequestId? })`. The call is async only and starts exactly one task. Launch independent work with separate calls, which may be issued in parallel. Launch dependent work only after prior results arrive. Read status only with `pstack_status({ taskId })`. Cancel with `pstack_cancel({ taskId, reason? })`. Discover authenticated provider and model IDs with `pstack_catalog({})`.
 
-**Model selection.** T3 provider selection is Pi. Omit `model` to inherit the exact parent Pi model. If T3 cannot report that model or the caller is not Pi, fail clearly rather than silently selecting another default. When explicit diversity matters, choose authenticated model IDs from `constellation_catalog({})`. Do not hardcode model pools, old model-routing tables, or obsolete aliases.
+**Model selection.** T3 provider selection is Pi. Omit `model` to inherit the exact parent Pi model. If T3 cannot report that model or the caller is not Pi, fail clearly rather than silently selecting another default. When explicit diversity matters, choose authenticated model IDs from `pstack_catalog({})`. Do not hardcode model pools, old model-routing tables, or obsolete aliases.
 
 **Delegate contract.** Keep `task` self-contained. Point at files instead of inlining large payloads. Include the goal, scope, allowed files, verification, whether writes are allowed, and the requested report format. Role markdown is injected into the task, but it is not a sandbox or tool allowlist. T3 children share the caller checkout and have fresh context. They do not get automatic worktree isolation. Parallel writes require disjoint scopes. Create separate top-level worktree threads only when the user explicitly requests them.
 
-You own every delegate's work. Review the diff and write your own summary, don't pass through what it said. For each review round, start a new `constellation_delegate` task containing the original brief, previous findings, responses, and unresolved objections. Never poll or sleep for delegate completion. Never send follow-up work to a child thread.
+You own every delegate's work. Review the diff and write your own summary, don't pass through what it said. For each review round, start a new `pstack_delegate` task containing the original brief, previous findings, responses, and unresolved objections. Never poll or sleep for delegate completion. Never send follow-up work to a child thread.
 
 ## Writing the reply
 

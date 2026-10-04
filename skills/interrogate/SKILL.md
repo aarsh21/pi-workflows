@@ -33,14 +33,14 @@ Write one clear paragraph. If you're unsure about the intent, ask the user befor
 
 ## Step 3, Spawn Reviewers
 
-Launch reviewers with one `constellation_delegate` call per reviewer. Independent calls may be launched in parallel. Use `constellation_catalog({})` to choose authenticated model IDs when explicit diversity matters. Otherwise omit `model` so T3 inherits the exact parent Pi model; if inheritance is unavailable, fail clearly rather than silently selecting another model. Start with four Reviewer A/B/C/D labels unless the user requested a different count.
+Launch reviewers with one `pstack_delegate` call per reviewer. Independent calls may be launched in parallel. Use `pstack_catalog({})` to choose authenticated model IDs when explicit diversity matters. Otherwise omit `model` so T3 inherits the exact parent Pi model; if inheritance is unavailable, fail clearly rather than silently selecting another model. Start with four Reviewer A/B/C/D labels unless the user requested a different count.
 
 For each reviewer:
 - `role`: `'worker'`
 - `model`: an authenticated catalog model ID, or omit it
 - task says read-only review, no file edits
 
-If a model ID is rejected as unresolvable, pick another authenticated model from `constellation_catalog({})`, choose the closest equivalent, and spawn with the valid ID. Do not block the review on a stale ID. Never use old aliases or legacy model tables.
+If a model ID is rejected as unresolvable, pick another authenticated model from `pstack_catalog({})`, choose the closest equivalent, and spawn with the valid ID. Do not block the review on a stale ID. Never use old aliases or legacy model tables.
 
 Read `references/reviewer-prompt.md` and fill in the template with:
 1. The stated intent

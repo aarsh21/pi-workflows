@@ -1,6 +1,6 @@
 ---
 name: reflect
-description: Spawn three parallel Constellation review delegates over the active transcript, surface learnings, and route each to a concrete edit on an existing skill. Use when the user says reflect.
+description: Spawn three parallel pi-t3-pstack review delegates over the active transcript, surface learnings, and route each to a concrete edit on an existing skill. Use when the user says reflect.
 disable-model-invocation: true
 ---
 
@@ -20,7 +20,7 @@ The active transcript is `$PI_SESSION_FILE`. Use it directly when present. To ch
 
 ### 2. Spawn three reviewers in parallel
 
-Call `constellation_delegate` once per reviewer. Independent calls may be launched in parallel. Use `role: 'worker'`, omit `model` by default, and choose authenticated IDs from `constellation_catalog({})` only when explicit model diversity matters. Each prompt forbids file writes. Reviewers may use MCPs available to their Pi child context for context lookups (tickets, chat threads, observability traces referenced in the transcript). The parent applies edits.
+Call `pstack_delegate` once per reviewer. Independent calls may be launched in parallel. Use `role: 'worker'`, omit `model` by default, and choose authenticated IDs from `pstack_catalog({})` only when explicit model diversity matters. Each prompt forbids file writes. Reviewers may use MCPs available to their Pi child context for context lookups (tickets, chat threads, observability traces referenced in the transcript). The parent applies edits.
 
 | Lens | Model | Prompt template |
 |---|---|---|
@@ -28,11 +28,11 @@ Call `constellation_delegate` once per reviewer. Independent calls may be launch
 | Tooling | omitted by default, or authenticated catalog ID | `references/tooling-reviewer.md` |
 | Divergent | omitted by default, or authenticated catalog ID | `references/divergent-reviewer.md` |
 
-Pass each template verbatim, substituting the transcript path or digest where marked. Reviewers return findings in their Constellation task results.
+Pass each template verbatim, substituting the transcript path or digest where marked. Reviewers return findings in their pi-t3-pstack task results.
 
 ### 3. Synthesize
 
-One `constellation_delegate` call using `role: 'worker'`. The synthesizer may use MCPs available to its Pi child context to spot-check citations. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
+One `pstack_delegate` call using `role: 'worker'`. The synthesizer may use MCPs available to its Pi child context to spot-check citations. Use `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. The synthesizer returns a structured Accepted / Rejected / Backlog list.
 
 ### 4. Structural enforcement check
 
