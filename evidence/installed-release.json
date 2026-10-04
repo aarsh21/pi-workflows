@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "source": "Independently inspected T3 parent and child durable activity after installation from GitHub tag v0.2.1",
+  "releaseCommit": "7600e95f2345bd5f21b8c5ef5ef4ede07460dd19",
+  "installedSourceHashesVerified": 128,
+  "threadId": "thread:delegated-task:command%3Amcp%3Adce547b0-feb6-46db-aae1-7f841900b750%3Adelegate-task%3Apstack-installed-skill-discovery-e2e-v1",
+  "childThreadId": "thread:delegated-task:command%3Amcp%3A82208ebd-eee0-476a-9a78-857ff90542f1%3Adelegate-task%3Apstack-installed-skill-discovery-child-v1",
+  "parentModel": "openai-codex/gpt-6.1-sol",
+  "childModel": "openai-codex/gpt-6.1-sol",
+  "resolvedChildTarget": {
+    "providerInstanceId": "pi",
+    "model": "openai-codex/gpt-6.1-sol"
+  },
+  "runCount": 2,
+  "delegateInput": {
+    "role": "worker",
+    "title": "Native skill-discovery probe",
+    "clientRequestId": "pstack-installed-skill-discovery-child-v1",
+    "task": "Read the poteto-mode skill from the skill catalog already in your context. Do not edit files, run shell commands, or delegate. Return PSTACK_NATIVE_SKILL_OK and JSON containing the actual SKILL.md path you read."
+  },
+  "generatedChildTask": "Use T3 Code for delegation. Create additional agents only if the task asks you to.\n\nYou do not have the parent's conversation history. You share its checkout. Follow the task's file scope and verification requirements.\n\nRole instructions:\n\n# Poteto worker role\n\nRead the `poteto-mode` skill before starting work, including its Principles index. Read the relevant `principle-*` skill when you apply a principle.\n\nUser task:\n\nRead the poteto-mode skill from the skill catalog already in your context. Do not edit files, run shell commands, or delegate. Return PSTACK_NATIVE_SKILL_OK and JSON containing the actual SKILL.md path you read.",
+  "actualSkillRead": {
+    "position": 1,
+    "input": {
+      "path": "/home/buhh/.pi/agent/git/github.com/aarsh21/pi-t3-pstack/skills/poteto-mode/SKILL.md",
+      "offset": null,
+      "limit": null
+    },
+    "status": "completed"
+  },
+  "assertions": [
+    "No model or options override; exact parent Pi model inherited",
+    "No project identity or skill-directory line in generated child task",
+    "Native child discovers and reads installed poteto-mode skill",
+    "GitHub release matches 128 live-tested source hashes",
+    "Automatic completion creates a second parent run",
+    "No status or wait before automatic wake"
+  ],
+  "runs": [
+    {
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:2",
+      "ordinal": 2,
+      "status": "completed",
+      "providerInstanceId": "pi",
+      "model": "openai-codex/gpt-6.1-sol",
+      "requestedAt": "2026-10-04T10:24:48.304Z",
+      "startedAt": "2026-10-04T10:24:48.314Z",
+      "completedAt": "2026-10-04T10:25:03.560Z"
+    },
+    {
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:1",
+      "ordinal": 1,
+      "status": "completed",
+      "providerInstanceId": "pi",
+      "model": "openai-codex/gpt-6.1-sol",
+      "requestedAt": "2026-10-04T10:24:24.780Z",
+      "startedAt": "2026-10-04T10:24:25.092Z",
+      "completedAt": "2026-10-04T10:24:43.346Z"
+    }
+  ],
+  "parentTimeline": [
+    {
+      "position": 1,
+      "type": "dynamic_tool",
+      "title": "codemode",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:31.422Z"
+    },
+    {
+      "position": 2,
+      "type": "dynamic_tool",
+      "title": "pstack_roles",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:31.384Z"
+    },
+    {
+      "position": 3,
+      "type": "dynamic_tool",
+      "title": "pstack_catalog",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:31.422Z"
+    },
+    {
+      "position": 4,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__orchestrator_capabilities",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:31.422Z"
+    },
+    {
+      "position": 5,
+      "type": "dynamic_tool",
+      "title": "pstack_delegate",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:38.068Z"
+    },
+    {
+      "position": 6,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__orchestrator_capabilities",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:38.035Z"
+    },
+    {
+      "position": 7,
+      "type": "subagent",
+      "title": "Native skill-discovery probe",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:48.297Z",
+      "text": "PSTACK_NATIVE_SKILL_OK\n{\"path\":\"/home/buhh/.pi/agent/git/github.com/aarsh21/pi-t3-pstack/skills/poteto-mode/SKILL.md\"}"
+    },
+    {
+      "position": 8,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__delegate_task",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:38.068Z"
+    },
+    {
+      "position": 9,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:43.282Z",
+      "text": "Child launched; taskId and childThreadId retained. Awaiting T3’s automatic completion notification."
+    },
+    {
+      "position": 11,
+      "type": "notification",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:2",
+      "timestamp": "2026-10-04T10:24:48.304Z",
+      "text": "Delegated task \"Native skill-discovery probe\" finished"
+    },
+    {
+      "position": 12,
+      "type": "dynamic_tool",
+      "title": "pstack_status",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:2",
+      "timestamp": "2026-10-04T10:24:53.781Z"
+    },
+    {
+      "position": 13,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__task_status",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:2",
+      "timestamp": "2026-10-04T10:24:53.781Z"
+    },
+    {
+      "position": 14,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Apstack-installed-skill-discovery-e2e-v1:ordinal:2",
+      "timestamp": "2026-10-04T10:25:03.510Z",
+      "text": "PSTACK_NATIVE_DELIVERY_OK\n```json\n{\n  \"taskId\": \"node:delegated-task:command%3Amcp%3A82208ebd-eee0-476a-9a78-857ff90542f1%3Adelegate-task%3Apstack-installed-skill-discovery-child-v1\",\n  \"childThreadId\": \"thread:delegated-task:command%3Amcp%3A82208ebd-eee0-476a-9a78-857ff90542f1%3Adelegate-task%3Apstack-installed-skill-discovery-child-v1\",\n  \"childSummary\": \"PSTACK_NATIVE_SKILL_OK\\n{\\\"path\\\":\\\"/home/buhh/.pi/agent/git/github.com/aarsh21/pi-t3-pstack/skills/poteto-mode/SKILL.md\\\"}\",\n  \"parentModel\": \"openai-codex/gpt-6.1-sol\",\n  \"childModel\": \"openai-codex/gpt-6.1-sol\"\n}\n```"
+    }
+  ],
+  "childTimeline": [
+    {
+      "position": 1,
+      "type": "dynamic_tool",
+      "title": "read",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253A82208ebd-eee0-476a-9a78-857ff90542f1%253Adelegate-task%253Apstack-installed-skill-discovery-child-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:44.071Z"
+    },
+    {
+      "position": 2,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253A82208ebd-eee0-476a-9a78-857ff90542f1%253Adelegate-task%253Apstack-installed-skill-discovery-child-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:24:48.219Z",
+      "text": "PSTACK_NATIVE_SKILL_OK\n{\"path\":\"/home/buhh/.pi/agent/git/github.com/aarsh21/pi-t3-pstack/skills/poteto-mode/SKILL.md\"}"
+    }
+  ]
+}
