@@ -70,6 +70,10 @@ The initial GitHub installation proof is archived in [v0.1.0/installed-release.j
 
 The current live suite has no model-override environment variable, omits `model` on every successful launch, and asserts that returned child models exactly match T3's inherited parent model. Production also refuses to silently choose another default if inheritance is unavailable. The fork contains only the standalone Constellation package; inherited monorepo branches were removed.
 
+[installed-release.json](installed-release.json) independently verifies the GitHub-installed **v0.1.1** release. Neither its outer test task nor its Constellation child call supplied a model or options. The live T3 timeline shows the parent model and resolved child model match, bundled roles resolve from the managed Git installation, automatic completion creates a second parent run, and the parent fetches status only after the wake. All 128 live-tested source hashes also match the installed release.
+
+Release CI passed on both Node 24 and 26: [tag run](https://github.com/aarsh21/pi-constellation/actions/runs/37193842708) and [branch run](https://github.com/aarsh21/pi-constellation/actions/runs/37193840143).
+
 ## Problems caught during testing/review
 
 - Pi nested tool execution returns an outcome wrapper, not a bare tool result. The adapter unwraps it and propagates hook failures.

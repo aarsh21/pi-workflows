@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "source": "Independently inspected T3 durable activity after GitHub installation of v0.1.1",
+  "releaseCommit": "91fa757967099aa91669593412758affe94ca9ae",
+  "installedSourceHashesVerified": 128,
+  "threadId": "thread:delegated-task:command%3Amcp%3Adce547b0-feb6-46db-aae1-7f841900b750%3Adelegate-task%3Aconstellation-github-parent-model-e2e-2",
+  "providerInstanceId": "pi",
+  "parentModel": "openai-codex/gpt-6.1-sol",
+  "resolvedChildTarget": {
+    "providerInstanceId": "pi",
+    "model": "openai-codex/gpt-6.1-sol"
+  },
+  "runCount": 2,
+  "delegateInput": {
+    "role": "worker",
+    "title": "Git release parent-model inheritance probe",
+    "clientRequestId": "constellation-release-parent-model-child-v2",
+    "task": "Single-step release smoke test. No edits, shell commands, or further delegation. Read any bundled role-required skill if needed, then return exactly CONSTELLATION_RELEASE_PARENT_MODEL_CHILD_OK."
+  },
+  "bundledSkillRoot": "~/.pi/agent/git/github.com/aarsh21/pi-constellation/skills",
+  "assertions": [
+    "GitHub release matches all 128 live-tested source hashes",
+    "Model and options omitted from both outer test task and Constellation child call",
+    "Exact Pi parent model inherited",
+    "Role loaded from managed Git installation",
+    "Automatic completion creates a second real Pi parent run",
+    "No pre-wake status or wait polling"
+  ],
+  "runs": [
+    {
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:2",
+      "ordinal": 2,
+      "status": "completed",
+      "providerInstanceId": "pi",
+      "model": "openai-codex/gpt-6.1-sol",
+      "requestedAt": "2026-10-04T10:00:12.059Z",
+      "startedAt": "2026-10-04T10:00:12.070Z",
+      "completedAt": "2026-10-04T10:00:29.216Z"
+    },
+    {
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:1",
+      "ordinal": 1,
+      "status": "completed",
+      "providerInstanceId": "pi",
+      "model": "openai-codex/gpt-6.1-sol",
+      "requestedAt": "2026-10-04T09:58:46.283Z",
+      "startedAt": "2026-10-04T09:58:46.630Z",
+      "completedAt": "2026-10-04T10:00:07.164Z"
+    }
+  ],
+  "timeline": [
+    {
+      "position": 1,
+      "type": "dynamic_tool",
+      "title": "constellation_roles",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:1",
+      "timestamp": "2026-10-04T09:58:51.434Z"
+    },
+    {
+      "position": 2,
+      "type": "dynamic_tool",
+      "title": "constellation_catalog",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:1",
+      "timestamp": "2026-10-04T09:59:55.321Z"
+    },
+    {
+      "position": 3,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__orchestrator_capabilities",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:1",
+      "timestamp": "2026-10-04T09:59:55.312Z"
+    },
+    {
+      "position": 4,
+      "type": "dynamic_tool",
+      "title": "constellation_delegate",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:1",
+      "timestamp": "2026-10-04T10:00:01.490Z"
+    },
+    {
+      "position": 5,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__orchestrator_capabilities",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:1",
+      "timestamp": "2026-10-04T10:00:01.449Z"
+    },
+    {
+      "position": 6,
+      "type": "subagent",
+      "title": "Git release parent-model inheritance probe",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:1",
+      "timestamp": "2026-10-04T10:00:12.051Z",
+      "text": "CONSTELLATION_RELEASE_PARENT_MODEL_CHILD_OK"
+    },
+    {
+      "position": 7,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__delegate_task",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:1",
+      "timestamp": "2026-10-04T10:00:01.490Z"
+    },
+    {
+      "position": 8,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:1",
+      "timestamp": "2026-10-04T10:00:07.085Z",
+      "text": "Launched exactly one child with model and options omitted. Parent and child model: `openai-codex/gpt-6.1-sol`. Awaiting automatic T3 completion notification."
+    },
+    {
+      "position": 10,
+      "type": "notification",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:2",
+      "timestamp": "2026-10-04T10:00:12.059Z",
+      "text": "Delegated task \"Git release parent-model inheritance probe\" finished"
+    },
+    {
+      "position": 11,
+      "type": "dynamic_tool",
+      "title": "constellation_status",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:2",
+      "timestamp": "2026-10-04T10:00:19.513Z"
+    },
+    {
+      "position": 12,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__task_status",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:2",
+      "timestamp": "2026-10-04T10:00:19.513Z"
+    },
+    {
+      "position": 13,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-parent-model-e2e-2:ordinal:2",
+      "timestamp": "2026-10-04T10:00:29.164Z",
+      "text": "CONSTELLATION_RELEASE_PARENT_MODEL_DELIVERY_OK\n\n```json\n{\n  \"taskId\": \"node:delegated-task:command%3Amcp%3Ab8dfd002-5011-41c0-976f-05a41abd8d5e%3Adelegate-task%3Aconstellation-release-parent-model-child-v2\",\n  \"childThreadId\": \"thread:delegated-task:command%3Amcp%3Ab8dfd002-5011-41c0-976f-05a41abd8d5e%3Adelegate-task%3Aconstellation-release-parent-model-child-v2\",\n  \"childSummary\": \"CONSTELLATION_RELEASE_PARENT_MODEL_CHILD_OK\",\n  \"parentModel\": \"openai-codex/gpt-6.1-sol\",\n  \"childModel\": \"openai-codex/gpt-6.1-sol\",\n  \"automaticWakeObserved\": true\n}\n```"
+    }
+  ]
+}
