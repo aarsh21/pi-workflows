@@ -9,10 +9,10 @@ The package includes the upstream workflow skills, playbooks, principles, and tw
 Requirements: Pi 1.0+, Node 22+, and a T3 Code version with the native Pi provider and `delegate_task` MCP tools. Enable Pi in T3 Settings and select it for your thread. Your Pi authentication, models, skills, and extensions carry over.
 
 ```bash
-pi install git:github.com/aarsh21/pi-t3-pstack@v0.2.0
+pi install git:github.com/aarsh21/pi-t3-pstack@v0.2.1
 ```
 
-Restart the T3 Pi session or run `/reload`. T3 injects its session-scoped MCP transport; do not copy tokens or create a global T3 credential file.
+Restart the T3 Pi session or run `/reload`. Pi adds the package's available skill names, descriptions, and paths to the child context. The worker reads the full skill when needed; the task prompt does not repeat the skill directory or a project identity. T3 injects its session-scoped MCP transport; do not copy tokens or create a global T3 credential file.
 
 If replacing the upstream p-stack package, remove it to avoid conflicting workflow instructions:
 

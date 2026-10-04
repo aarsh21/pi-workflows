@@ -4,6 +4,7 @@ import { mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
+import { formatSkillsForPrompt, loadSkillsFromDir } from "@earendil-works/pi-coding-agent";
 import { buildTask, PACKAGE_ROOT, ROLES } from "../extensions/pstack/roles.ts";
 
 async function markdownFiles(directory: string): Promise<string[]> {
@@ -23,6 +24,16 @@ test("bundled workflow resources do not route to obsolete delegation APIs or mod
       assert.doesNotMatch(text, /pstack\/models\.json|herdr-agents\/config\.json|subagents_write_task_models|\bsubagent\s*\(|`subagent`|inherit-parent/, path);
     }
   }
+});
+
+test("Pi discovers the worker skill and includes its path in the skill catalog", () => {
+  const { skills } = loadSkillsFromDir({ dir: resolve(PACKAGE_ROOT, "skills"), source: "package" });
+  const workerSkill = skills.find(skill => skill.name === "poteto-mode");
+  assert.ok(workerSkill);
+  assert.equal(workerSkill.disableModelInvocation, false);
+  const catalog = formatSkillsForPrompt(skills);
+  assert.match(catalog, /<name>poteto-mode<\/name>/);
+  assert.ok(catalog.includes(workerSkill.filePath));
 });
 
 test("child prompts give plain delegation instructions without legacy backend references", async () => {

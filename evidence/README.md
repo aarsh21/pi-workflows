@@ -2,7 +2,7 @@
 
 ## Current checks
 
-[local-checks.txt](local-checks.txt) records 22 passing tests, TypeScript checking, a real Pi RPC smoke test, and a package check.
+[local-checks.txt](local-checks.txt) records 23 passing tests, TypeScript checking, a real Pi RPC smoke test, and a package check.
 
 The tests cover T3 transport decoding, permission errors, model inheritance, retry keys, role loading, mode commands, shell confirmation, and migrated workflow resources. They also reject legacy backend warnings, brand identity lines, and redundant skill paths in child prompts.
 
@@ -12,7 +12,7 @@ The tests cover T3 transport decoding, permission errors, model inheritance, ret
 
 The worker fixes a broken arithmetic function. The parent reruns its Node test and records the source and file hashes. A report-only reviewer leaves its assigned file unchanged. A third task receives a cancellation request and reaches a terminal interrupted state. The test also checks status retrieval and idempotent request replay.
 
-The children load skills through Pi's installed-package catalog. Their task prompts contain neither an absolute skill directory nor a project identity line. Role instructions still name the skills the worker needs to read. Pi's catalog supplies names, descriptions, and file paths, not every skill's full contents.
+The children load skills through Pi's installed-package catalog. Their task prompts contain neither an absolute skill directory nor a project identity line. Role instructions still name the skills the worker needs to read. A test uses Pi's actual skill loader and prompt formatter to verify that `poteto-mode` appears in the catalog with its file path. Pi's catalog supplies names, descriptions, and file paths, not every skill's full contents.
 
 The receipt includes SHA256 values for the source files used in the test. Check them with:
 
