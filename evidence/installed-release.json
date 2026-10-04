@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "source": "T3 durable parent and child activity after GitHub installation of Pi Workflows v0.2.2",
+  "releaseCommit": "0abea5f5768a90db6615467e1614ffdbf3e5043a",
+  "installedSourceHashesVerified": 128,
+  "threadId": "thread:delegated-task:command%3Amcp%3Adce547b0-feb6-46db-aae1-7f841900b750%3Adelegate-task%3Api-workflows-native-installed-v1",
+  "childThreadId": "thread:delegated-task:command%3Amcp%3Acc8d2946-1086-4bf2-8f3e-7470fecf51db%3Adelegate-task%3Api-workflows-native-child-v1",
+  "parentModel": "openai-codex/gpt-6.1-sol",
+  "childModel": "openai-codex/gpt-6.1-sol",
+  "runCount": 2,
+  "delegateInput": {
+    "role": "worker",
+    "title": "Portable installed skill probe",
+    "clientRequestId": "pi-workflows-native-child-v1",
+    "task": "Read poteto-mode from the skill catalog in your context. Do not edit files, use shell commands, or delegate. Return WORKFLOWS_SKILL_OK and the exact SKILL.md path you read."
+  },
+  "generatedChildTask": "Use T3 Code for delegation. Create additional agents only if the task asks you to.\n\nYou do not have the parent's conversation history. You share its checkout. Follow the task's file scope and verification requirements.\n\nRole instructions:\n\n# Poteto worker role\n\nRead the `poteto-mode` skill before starting work, including its Principles index. Read the relevant `principle-*` skill when you apply a principle.\n\nUser task:\n\nRead poteto-mode from the skill catalog in your context. Do not edit files, use shell commands, or delegate. Return WORKFLOWS_SKILL_OK and the exact SKILL.md path you read.",
+  "actualSkillRead": {
+    "position": 1,
+    "input": {
+      "path": "/home/buhh/.pi/agent/git/github.com/aarsh21/pi-workflows/skills/poteto-mode/SKILL.md",
+      "offset": null,
+      "limit": null
+    },
+    "status": "completed"
+  },
+  "assertions": [
+    "Native installed-package skill discovery without task skill paths or identity lines",
+    "Parent and child use the same inherited Pi model",
+    "Automatic completion resumes parent in a second run",
+    "No pre-wake status or wait polling",
+    "GitHub-installed source matches all 128 live-tested hashes"
+  ],
+  "runs": [
+    {
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:2",
+      "ordinal": 2,
+      "status": "completed",
+      "providerInstanceId": "pi",
+      "model": "openai-codex/gpt-6.1-sol",
+      "requestedAt": "2026-10-04T10:32:46.840Z",
+      "startedAt": "2026-10-04T10:32:46.851Z",
+      "completedAt": "2026-10-04T10:33:06.967Z"
+    },
+    {
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:1",
+      "ordinal": 1,
+      "status": "completed",
+      "providerInstanceId": "pi",
+      "model": "openai-codex/gpt-6.1-sol",
+      "requestedAt": "2026-10-04T10:32:24.089Z",
+      "startedAt": "2026-10-04T10:32:24.451Z",
+      "completedAt": "2026-10-04T10:32:37.019Z"
+    }
+  ],
+  "parentTimeline": [
+    {
+      "position": 1,
+      "type": "dynamic_tool",
+      "title": "pstack_delegate",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:32:31.025Z"
+    },
+    {
+      "position": 2,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__orchestrator_capabilities",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:32:30.994Z"
+    },
+    {
+      "position": 3,
+      "type": "subagent",
+      "title": "Portable installed skill probe",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:32:46.830Z",
+      "text": "WORKFLOWS_SKILL_OK\n/home/buhh/.pi/agent/git/github.com/aarsh21/pi-workflows/skills/poteto-mode/SKILL.md"
+    },
+    {
+      "position": 4,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__delegate_task",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:32:31.025Z"
+    },
+    {
+      "position": 5,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:32:36.950Z",
+      "text": "Launched the child. Awaiting T3’s automatic notification."
+    },
+    {
+      "position": 7,
+      "type": "notification",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:2",
+      "timestamp": "2026-10-04T10:32:46.840Z",
+      "text": "Delegated task \"Portable installed skill probe\" finished"
+    },
+    {
+      "position": 8,
+      "type": "dynamic_tool",
+      "title": "pstack_status",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:2",
+      "timestamp": "2026-10-04T10:32:52.149Z"
+    },
+    {
+      "position": 9,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__task_status",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:2",
+      "timestamp": "2026-10-04T10:32:52.144Z"
+    },
+    {
+      "position": 10,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__t3_thread_configuration",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:2",
+      "timestamp": "2026-10-04T10:32:57.420Z"
+    },
+    {
+      "position": 11,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Api-workflows-native-installed-v1:ordinal:2",
+      "timestamp": "2026-10-04T10:33:06.887Z",
+      "text": "WORKFLOWS_DELIVERY_OK\n\n```json\n{\n  \"taskId\": \"node:delegated-task:command%3Amcp%3Acc8d2946-1086-4bf2-8f3e-7470fecf51db%3Adelegate-task%3Api-workflows-native-child-v1\",\n  \"childThreadId\": \"thread:delegated-task:command%3Amcp%3Acc8d2946-1086-4bf2-8f3e-7470fecf51db%3Adelegate-task%3Api-workflows-native-child-v1\",\n  \"childSummary\": \"WORKFLOWS_SKILL_OK\\n/home/buhh/.pi/agent/git/github.com/aarsh21/pi-workflows/skills/poteto-mode/SKILL.md\",\n  \"parentModel\": \"openai-codex/gpt-6.1-sol\",\n  \"childModel\": \"openai-codex/gpt-6.1-sol\"\n}\n```"
+    }
+  ],
+  "childTimeline": [
+    {
+      "position": 1,
+      "type": "dynamic_tool",
+      "title": "read",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Acc8d2946-1086-4bf2-8f3e-7470fecf51db%253Adelegate-task%253Api-workflows-native-child-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:32:38.316Z"
+    },
+    {
+      "position": 2,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Acc8d2946-1086-4bf2-8f3e-7470fecf51db%253Adelegate-task%253Api-workflows-native-child-v1:ordinal:1",
+      "timestamp": "2026-10-04T10:32:46.766Z",
+      "text": "WORKFLOWS_SKILL_OK\n/home/buhh/.pi/agent/git/github.com/aarsh21/pi-workflows/skills/poteto-mode/SKILL.md"
+    }
+  ]
+}
