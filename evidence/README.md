@@ -7,7 +7,7 @@ This report distinguishes measured behavior from assumptions. The receipts conta
 - Pi `1.0.2`.
 - Node `v26.10.0` on Linux.
 - Running T3 Code `v0.0.46-nightly.20261004.2644`.
-- Real child provider `pi`, model `openai-codex/gpt-5.5`.
+- Real child provider `pi`; the current live suite omits `model` and verifies inheritance of the actual T3 parent model. See `live-e2e.json` for the measured model.
 - T3 source inspection used pingdotgg/t3code commit `eac52f0087d9ba5dee5542f24788d1482affae43`. The integration ran against the installed T3 environment, not a newly built copy of that checkout.
 
 ## Offline and actual RPC checks
@@ -51,7 +51,7 @@ PY
 
 ## Native T3 automatic delivery
 
-[native-delivery.json](native-delivery.json) was independently extracted from T3's durable thread activity. This test used an **actual T3-managed LLM Pi parent**, with the installed Constellation package and no Herdr subagent host.
+[The archived initial timeline](v0.1.0/native-delivery.json) was independently extracted from T3's durable thread activity. This test used an **actual T3-managed LLM Pi parent**, with the installed Constellation package and no Herdr subagent host.
 
 The timeline records:
 
@@ -63,6 +63,12 @@ The timeline records:
 - `CONSTELLATION_NATIVE_DELIVERY_OK` in that second run.
 
 The native parent fetched the completed summary once **after** the automatic notification. The evidence includes that call rather than concealing it. There was no status/wait call before the wake and no polling loop. The timeline, not just the model's claim, establishes delivery order.
+
+## Release installation and parent-model inheritance
+
+The initial GitHub installation proof is archived in [v0.1.0/installed-release.json](v0.1.0/installed-release.json). Its test parent explicitly selected GPT-5.5; that was a test choice, never a production default. Historical receipts are retained unchanged instead of rewriting what was measured.
+
+The current live suite has no model-override environment variable, omits `model` on every successful launch, and asserts that returned child models exactly match T3's inherited parent model. Production also refuses to silently choose another default if inheritance is unavailable. The fork contains only the standalone Constellation package; inherited monorepo branches were removed.
 
 ## Problems caught during testing/review
 

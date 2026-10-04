@@ -1,28 +1,28 @@
 
-> @aarsh21/pi-constellation@0.1.1 test
+> @aarsh21/pi-constellation@0.1.0 test
 > node --experimental-strip-types --test tests/*.test.ts
 
-✔ delegates with injected role, Pi target, async mode, and stable retry identity (3.741053ms)
-✔ fails closed outside T3 and never launches a detached fallback (0.925144ms)
-✔ rejects missing task IDs and unavailable models without claiming success (1.571724ms)
-✔ forwards task status and idempotent cancellation through Pi's nested tool pipeline (0.552222ms)
-✔ cancellation retry identities cannot collide across different tasks (0.325894ms)
-✔ bundled role paths cannot be selected arbitrarily (0.389104ms)
-✔ retains upstream external-write guardrail (0.532814ms)
-✔ branded command and compatibility alias expand the skill and persist mode (1.562627ms)
-✔ restores the last mode entry from the active session branch (0.248729ms)
-✔ both explicit mode skills activate sticky mode but ordinary input does not (0.857236ms)
-✔ noninteractive irreversible shell calls fail closed (0.358135ms)
-✔ declined approval blocks and approved RPC-compatible confirmation allows (0.346042ms)
-✔ connectivity command reports missing registration without launching model work (0.251284ms)
-✔ bundled workflow resources do not route to obsolete Herdr APIs or model files (6.617908ms)
-✔ plan validator accepts the migrated model-omission phrase rather than obsolete aliases (31.66256ms)
-✔ resolves T3 names without picking an unrelated delegate tool (0.624096ms)
-✔ decodes real T3 bridge duplicate JSON and rejects malformed/error results (0.668871ms)
-✔ unwraps Pi's nested outcome and carries nested permission errors (0.24948ms)
-✔ selects inherited Pi instance/model and validates live options (0.34474ms)
-✔ does not inherit another provider's model or choose an ambiguous Pi instance (0.124014ms)
-✔ rejects malformed catalogs at the boundary (0.195359ms)
+✔ delegates with injected role, Pi target, async mode, and stable retry identity (4.010073ms)
+✔ fails closed outside T3 and never launches a detached fallback (0.935421ms)
+✔ rejects missing task IDs and unavailable models without claiming success (1.814518ms)
+✔ forwards task status and idempotent cancellation through Pi's nested tool pipeline (0.713063ms)
+✔ cancellation retry identities cannot collide across different tasks (0.326645ms)
+✔ bundled role paths cannot be selected arbitrarily (0.475976ms)
+✔ retains upstream external-write guardrail (0.534948ms)
+✔ branded command and compatibility alias expand the skill and persist mode (1.796704ms)
+✔ restores the last mode entry from the active session branch (0.247286ms)
+✔ both explicit mode skills activate sticky mode but ordinary input does not (0.641017ms)
+✔ noninteractive irreversible shell calls fail closed (0.313029ms)
+✔ declined approval blocks and approved RPC-compatible confirmation allows (0.300746ms)
+✔ connectivity command reports missing registration without launching model work (0.285568ms)
+✔ bundled workflow resources do not route to obsolete Herdr APIs or model files (6.996227ms)
+✔ plan validator accepts the migrated model-omission phrase rather than obsolete aliases (31.167122ms)
+✔ resolves T3 names without picking an unrelated delegate tool (0.770421ms)
+✔ decodes real T3 bridge duplicate JSON and rejects malformed/error results (0.535097ms)
+✔ unwraps Pi's nested outcome and carries nested permission errors (0.203473ms)
+✔ selects inherited Pi instance/model and validates live options (0.214835ms)
+✔ does not inherit another provider's model or choose an ambiguous Pi instance (0.091613ms)
+✔ rejects malformed catalogs at the boundary (0.103545ms)
 ℹ tests 21
 ℹ suites 0
 ℹ pass 21
@@ -30,13 +30,13 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 93.273487
+ℹ duration_ms 94.4975
 
-> @aarsh21/pi-constellation@0.1.1 typecheck
+> @aarsh21/pi-constellation@0.1.0 typecheck
 > tsc --noEmit
 
 
-> @aarsh21/pi-constellation@0.1.1 test:rpc
+> @aarsh21/pi-constellation@0.1.0 test:rpc
 > python3 scripts/rpc-smoke.py
 
 {
@@ -53,20 +53,20 @@
   "outsideT3FailsClosed": true
 }
 
-> @aarsh21/pi-constellation@0.1.1 check:pack
+> @aarsh21/pi-constellation@0.1.0 check:pack
 > npm pack --dry-run
 
 npm notice
-npm notice 📦  @aarsh21/pi-constellation@0.1.1
+npm notice 📦  @aarsh21/pi-constellation@0.1.0
 npm notice Tarball Contents
 npm notice 1.1kB LICENSE
-npm notice 987B PROVENANCE.md
-npm notice 6.9kB README.md
+npm notice 933B PROVENANCE.md
+npm notice 6.7kB README.md
 npm notice 2.5kB agents/comment-sicko.md
 npm notice 717B agents/poteto-agent.md
 npm notice 8.5kB extensions/constellation/index.ts
 npm notice 1.6kB extensions/constellation/roles.ts
-npm notice 5.6kB extensions/constellation/transport.ts
+npm notice 5.2kB extensions/constellation/transport.ts
 npm notice 1.2kB package.json
 npm notice 1.9kB skills/architect/references/design-red-flags.md
 npm notice 3.0kB skills/architect/references/rationale-template.md
@@ -89,7 +89,7 @@ npm notice 5.4kB skills/interrogate/references/code-quality-review.md
 npm notice 3.5kB skills/interrogate/references/lead-judgment.md
 npm notice 2.8kB skills/interrogate/references/reviewer-prompt.md
 npm notice 5.1kB skills/interrogate/references/rubric.md
-npm notice 4.6kB skills/interrogate/SKILL.md
+npm notice 4.5kB skills/interrogate/SKILL.md
 npm notice 5.0kB skills/maintain-verification-skill/SKILL.md
 npm notice 2.6kB skills/no-comments/SKILL.md
 npm notice 809B skills/poteto-mode/playbooks/authoring-a-skill.md
@@ -136,7 +136,7 @@ npm notice 2.3kB skills/poteto-mode/scripts/watch-pr/types.compile.ts
 npm notice 12.4kB skills/poteto-mode/scripts/watch-pr/types.ts
 npm notice 211B skills/poteto-mode/scripts/watch-pr/watch-pr
 npm notice 4.0kB skills/poteto-mode/scripts/worktree-audit.sh
-npm notice 18.9kB skills/poteto-mode/SKILL.md
+npm notice 18.8kB skills/poteto-mode/SKILL.md
 npm notice 1.9kB skills/principle-attack-the-premise/SKILL.md
 npm notice 1.9kB skills/principle-boundary-discipline/SKILL.md
 npm notice 2.5kB skills/principle-build-the-lever/SKILL.md
@@ -191,12 +191,12 @@ npm notice 8.0kB skills/why/references/synthesizer-prompt.md
 npm notice 10.1kB skills/why/SKILL.md
 npm notice Tarball Details
 npm notice name: @aarsh21/pi-constellation
-npm notice version: 0.1.1
-npm notice filename: aarsh21-pi-constellation-0.1.1.tgz
-npm notice package size: 209.7 kB
-npm notice unpacked size: 624.3 kB
-npm notice shasum: bdb664590e15554cb2260219d05cf293c9b8569c
-npm notice integrity: sha512-HzwYxWDG03i3K[...]DjvhtckE95Sng==
+npm notice version: 0.1.0
+npm notice filename: aarsh21-pi-constellation-0.1.0.tgz
+npm notice package size: 209.4 kB
+npm notice unpacked size: 623.3 kB
+npm notice shasum: 536a3c66fa84e321fedd490e5827b6b532e7a437
+npm notice integrity: sha512-ybqOMqpvVU0lV[...]WtEN4ATlWQK+Q==
 npm notice total files: 130
 npm notice
-aarsh21-pi-constellation-0.1.1.tgz
+aarsh21-pi-constellation-0.1.0.tgz

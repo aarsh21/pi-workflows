@@ -33,7 +33,7 @@ Write one clear paragraph. If you're unsure about the intent, ask the user befor
 
 ## Step 3, Spawn Reviewers
 
-Launch reviewers with one `constellation_delegate` call per reviewer. Independent calls may be launched in parallel. Use `constellation_catalog({})` to choose authenticated model IDs when explicit diversity matters. Otherwise omit `model` so T3 inherits the parent Pi model when available, or uses the Pi default. Start with four Reviewer A/B/C/D labels unless the user requested a different count.
+Launch reviewers with one `constellation_delegate` call per reviewer. Independent calls may be launched in parallel. Use `constellation_catalog({})` to choose authenticated model IDs when explicit diversity matters. Otherwise omit `model` so T3 inherits the exact parent Pi model; if inheritance is unavailable, fail clearly rather than silently selecting another model. Start with four Reviewer A/B/C/D labels unless the user requested a different count.
 
 For each reviewer:
 - `role`: `'worker'`

@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import { callT3, decodeT3Result, parseCatalog, resolveT3Tool, selectPiTarget } from "../extensions/constellation/transport.ts";
 
 const catalog = {
-  inheritedProviderInstanceId: "pi", inheritedModel: "openai-codex/gpt-5.5",
+  inheritedProviderInstanceId: "pi", inheritedModel: "test-provider/parent-model",
   providers: [{ providerInstanceId: "pi", driverKind: "pi", canRunChildTask: true, models: [
-    { id: "default" }, { id: "openai-codex/gpt-5.5", options: [{ id: "thinking", type: "select", options: [{ id: "low" }] }] },
+    { id: "default" }, { id: "test-provider/parent-model", options: [{ id: "thinking", type: "select", options: [{ id: "low" }] }] },
   ] }],
 };
 
@@ -43,8 +43,8 @@ test("unwraps Pi's nested outcome and carries nested permission errors", async (
 });
 
 test("selects inherited Pi instance/model and validates live options", () => {
-  assert.deepEqual(selectPiTarget(catalog), { providerInstanceId: "pi", model: "openai-codex/gpt-5.5" });
-  assert.deepEqual(selectPiTarget(catalog, undefined, { thinking: "low" }), { providerInstanceId: "pi", model: "openai-codex/gpt-5.5", options: { thinking: "low" } });
+  assert.deepEqual(selectPiTarget(catalog), { providerInstanceId: "pi", model: "test-provider/parent-model" });
+  assert.deepEqual(selectPiTarget(catalog, undefined, { thinking: "low" }), { providerInstanceId: "pi", model: "test-provider/parent-model", options: { thinking: "low" } });
   assert.throws(() => selectPiTarget(catalog, "not-a-model"), /live catalog/);
   assert.throws(() => selectPiTarget(catalog, undefined, { thinking: "ultra" }), /Unsupported/);
   assert.throws(() => selectPiTarget(catalog, undefined, { surprise: true }), /Unsupported/);
@@ -52,8 +52,10 @@ test("selects inherited Pi instance/model and validates live options", () => {
 });
 
 test("does not inherit another provider's model or choose an ambiguous Pi instance", () => {
-  assert.deepEqual(selectPiTarget({ ...catalog, inheritedProviderInstanceId: "claude" }), { providerInstanceId: "pi", model: "default" });
-  assert.throws(() => selectPiTarget({ ...catalog, inheritedProviderInstanceId: "claude", providers: [...catalog.providers, { ...catalog.providers[0]!, providerInstanceId: "pi-2" }] }), /Multiple Pi/);
+  assert.throws(() => selectPiTarget({ ...catalog, inheritedProviderInstanceId: "claude" }), /requires a Pi parent/);
+  assert.deepEqual(selectPiTarget({ ...catalog, inheritedProviderInstanceId: "claude" }, "test-provider/parent-model"), { providerInstanceId: "pi", model: "test-provider/parent-model" });
+  assert.throws(() => selectPiTarget({ ...catalog, inheritedModel: undefined }), /refusing to choose a different default/);
+  assert.throws(() => selectPiTarget({ ...catalog, inheritedProviderInstanceId: "claude", providers: [...catalog.providers, { ...catalog.providers[0]!, providerInstanceId: "pi-2" }] }, "test-provider/parent-model"), /Multiple Pi/);
 });
 
 test("rejects malformed catalogs at the boundary", () => {

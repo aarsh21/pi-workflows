@@ -13,7 +13,7 @@ T3 Code → Pi + Constellation → T3-owned Pi children → automatic parent wak
 Requirements: Pi 1.0+, Node 22+, and a T3 Code version with the native Pi provider and `delegate_task` MCP tools. Enable Pi in T3 Settings and select it for your thread. Your Pi authentication, models, skills, and extensions carry over.
 
 ```bash
-pi install git:github.com/aarsh21/pi-constellation@v0.1.0
+pi install git:github.com/aarsh21/pi-constellation@v0.1.1
 ```
 
 Restart the T3 Pi session or run `/reload`. T3 injects its session-scoped MCP transport; do not copy tokens or create a global T3 credential file.
@@ -73,7 +73,7 @@ constellation_delegate({
 });
 ```
 
-The default is the caller's Pi provider instance and model. When the caller is not Pi, one enabled Pi instance and its `default` model are used; ambiguity fails closed. Explicit `model` IDs and `options` must exist in the live catalog. No obsolete model-pool configuration is read.
+The default is the caller's exact Pi provider instance and model. There is no fixed model or silent fallback. If the caller is not Pi or T3 cannot report its model, default delegation fails clearly instead of picking a different model. An explicitly requested Pi model can still be selected from the live catalog. Explicit `model` IDs and `options` must exist in the live catalog. No obsolete model-pool configuration is read.
 
 Each call launches one task. Independent calls may run in parallel. Dependent work starts after the required results arrive. A review round always creates a fresh task with the original brief, prior findings, responses, and unresolved objections. A caller-supplied `clientRequestId` must remain stable across retries of the same request, and must differ for a new task. Generated keys include session/task identity.
 
@@ -88,7 +88,7 @@ Each call launches one task. Independent calls may run in parallel. Dependent wo
 
 ## Verification
 
-See [the evidence report](https://github.com/aarsh21/pi-constellation/blob/constellation/evidence/README.md), [real child-run receipts](https://github.com/aarsh21/pi-constellation/blob/constellation/evidence/live-e2e.json), and [native T3 automatic-delivery timeline](https://github.com/aarsh21/pi-constellation/blob/constellation/evidence/native-delivery.json).
+See [the evidence report](https://github.com/aarsh21/pi-constellation/blob/constellation/evidence/README.md), [real child-run receipts](https://github.com/aarsh21/pi-constellation/blob/constellation/evidence/live-e2e.json), and [GitHub-installed release timeline](https://github.com/aarsh21/pi-constellation/blob/constellation/evidence/installed-release.json).
 
 ```bash
 npm ci --ignore-scripts
@@ -100,7 +100,7 @@ npm run check:pack
 
 To rerun the paid/live integration test, ask a T3-managed Pi agent to run `npm run test:live` from this checkout. Its process must already have T3's session-scoped environment. The test uses a real Pi SDK agent loop with a deterministic parent fixture stream, then launches actual T3-owned Pi model processes. It verifies a real code fix, independently runs the test, checks the report-only fixture, exercises stable retries and cancellation, and writes a JSON receipt. It does not mock child results or claim to test GUI rendering.
 
-`CONSTELLATION_E2E_MODEL` can select an exact authenticated Pi model ID. `CONSTELLATION_T3_BRIDGE` can point to T3's generated Pi bridge when it is not under `~/.t3/caches`. `CONSTELLATION_EVIDENCE_PATH` changes the receipt path. Never publish credentials or general conversation logs.
+The live suite omits `model` entirely and asserts that children use the actual T3 Pi parent's model. It has no model-override environment variable. `CONSTELLATION_T3_BRIDGE` can point to T3's generated Pi bridge when it is not under `~/.t3/caches`. `CONSTELLATION_EVIDENCE_PATH` changes the receipt path. Never publish credentials or general conversation logs.
 
 The separate native smoke test used an actual T3-managed LLM parent and child. The durable T3 timeline proves that the parent ended its first turn, received an automatic completion notification, and began a second turn. One summary retrieval occurred **after** that wake, not in a polling loop.
 

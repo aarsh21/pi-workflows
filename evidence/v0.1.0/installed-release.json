@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "source": "Independently inspected T3 durable activity after installation from GitHub tag v0.1.0",
+  "releaseCommit": "1ac9f9ec7549cede37b620db756f3728f9890f1d",
+  "installedSourceHashesVerified": 128,
+  "threadId": "thread:delegated-task:command%3Amcp%3Adce547b0-feb6-46db-aae1-7f841900b750%3Adelegate-task%3Aconstellation-github-release-e2e-1",
+  "providerInstanceId": "pi",
+  "model": "openai-codex/gpt-5.5",
+  "runCount": 2,
+  "delegateInput": {
+    "role": "worker",
+    "options": {
+      "thinking": "low"
+    },
+    "title": "Constellation Git release automatic-delivery probe",
+    "clientRequestId": "constellation-release-auto-delivery-child-v1",
+    "task": "Single-step release smoke test. No edits, shell commands, or further delegation. Read any bundled role-required skill if needed, then return exactly CONSTELLATION_RELEASE_CHILD_OK."
+  },
+  "resolvedTarget": {
+    "providerInstanceId": "pi",
+    "model": "openai-codex/gpt-5.5",
+    "options": {
+      "thinking": "low"
+    }
+  },
+  "bundledSkillRoot": "~/.pi/agent/git/github.com/aarsh21/pi-constellation/skills",
+  "assertions": [
+    "Installed GitHub tag matches all live-tested source hashes",
+    "No explicit model argument; exact Pi model inherited",
+    "Supported thinking option forwarded",
+    "Role resolves from managed Git installation, not development checkout",
+    "Automatic child completion wakes real Pi LLM parent",
+    "No pre-wake status/wait polling"
+  ],
+  "runs": [
+    {
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:2",
+      "ordinal": 2,
+      "status": "completed",
+      "providerInstanceId": "pi",
+      "model": "openai-codex/gpt-5.5",
+      "requestedAt": "2026-10-04T09:48:16.936Z",
+      "startedAt": "2026-10-04T09:48:16.946Z",
+      "completedAt": "2026-10-04T09:48:27.776Z"
+    },
+    {
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:1",
+      "ordinal": 1,
+      "status": "completed",
+      "providerInstanceId": "pi",
+      "model": "openai-codex/gpt-5.5",
+      "requestedAt": "2026-10-04T09:47:57.293Z",
+      "startedAt": "2026-10-04T09:47:57.608Z",
+      "completedAt": "2026-10-04T09:48:15.620Z"
+    }
+  ],
+  "timeline": [
+    {
+      "position": 2,
+      "type": "dynamic_tool",
+      "title": "constellation_roles",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:48:05.300Z"
+    },
+    {
+      "position": 3,
+      "type": "dynamic_tool",
+      "title": "constellation_catalog",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:48:05.325Z"
+    },
+    {
+      "position": 4,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__orchestrator_capabilities",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:48:05.319Z"
+    },
+    {
+      "position": 5,
+      "type": "dynamic_tool",
+      "title": "constellation_delegate",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:48:09.040Z"
+    },
+    {
+      "position": 6,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__orchestrator_capabilities",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:48:09.002Z"
+    },
+    {
+      "position": 7,
+      "type": "subagent",
+      "title": "Constellation Git release automatic-delivery probe",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:48:16.928Z",
+      "text": "CONSTELLATION_RELEASE_CHILD_OK"
+    },
+    {
+      "position": 8,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__delegate_task",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:48:09.040Z"
+    },
+    {
+      "position": 9,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:1",
+      "timestamp": "2026-10-04T09:48:15.535Z",
+      "text": "Launched the single nested Constellation child and will wait for automatic delivery.\n\nRetained:\n```json\n{\n  \"taskId\": \"node:delegated-task:command%3Amcp%3A3bd3060e-4c55-4038-9c6c-0601defef13f%3Adelegate-task%3Aconstellation-release-auto-delivery-child-v1\",\n  \"childThreadId\": \"thread:delegated-task:command%3Amcp%3A3bd3060e-4c55-4038-9c6c-0601defef13f%3Adelegate-task%3Aconstellation-release-auto-delivery-child-v1\",\n  \"resolvedProvider\": \"pi\",\n  \"resolvedModel\": \"openai-codex/gpt-5.5\",\n  \"resolvedOptions\": {\n    \"thinking\": \"low\"\n  }\n}\n```"
+    },
+    {
+      "position": 11,
+      "type": "notification",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:2",
+      "timestamp": "2026-10-04T09:48:16.936Z",
+      "text": "Delegated task \"Constellation Git release automatic-delivery probe\" finished"
+    },
+    {
+      "position": 13,
+      "type": "dynamic_tool",
+      "title": "constellation_status",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:2",
+      "timestamp": "2026-10-04T09:48:21.892Z"
+    },
+    {
+      "position": 14,
+      "type": "dynamic_tool",
+      "title": "mcp__t3-code__task_status",
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:2",
+      "timestamp": "2026-10-04T09:48:21.892Z"
+    },
+    {
+      "position": 15,
+      "type": "assistant_message",
+      "title": null,
+      "status": "completed",
+      "runId": "run:thread:thread%3Adelegated-task%3Acommand%253Amcp%253Adce547b0-feb6-46db-aae1-7f841900b750%253Adelegate-task%253Aconstellation-github-release-e2e-1:ordinal:2",
+      "timestamp": "2026-10-04T09:48:27.729Z",
+      "text": "CONSTELLATION_RELEASE_DELIVERY_OK\n\n```json\n{\n  \"taskId\": \"node:delegated-task:command%3Amcp%3A3bd3060e-4c55-4038-9c6c-0601defef13f%3Adelegate-task%3Aconstellation-release-auto-delivery-child-v1\",\n  \"childThreadId\": \"thread:delegated-task:command%3Amcp%3A3bd3060e-4c55-4038-9c6c-0601defef13f%3Adelegate-task%3Aconstellation-release-auto-delivery-child-v1\",\n  \"childSummary\": \"CONSTELLATION_RELEASE_CHILD_OK\",\n  \"actualResolvedProviderModelOptions\": {\n    \"providerInstanceId\": \"pi\",\n    \"model\": \"openai-codex/gpt-5.5\",\n    \"options\": {\n      \"thinking\": \"low\"\n    }\n  }\n}\n```"
+    }
+  ]
+}

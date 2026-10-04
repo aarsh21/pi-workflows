@@ -22,7 +22,7 @@ Open a todolist with one entry per phase before launching anything.
 1. State the done predicate and the artifact or report the swarm must return.
 2. Choose the shape. Partition into slices, race N workers on identical briefs, or mix both. For a race or mixed shape, declare `first pass`, `rank all`, or `best-of` before spawning.
 3. Set N from the user or derive it from the shape. N is total workers, not a runtime concurrency limit.
-4. Pick worker models from `constellation_catalog({})` only when explicit diversity matters. Otherwise omit `model` so T3 inherits the parent Pi model when available, or uses the Pi default. For a model race, name each arm's catalog model ID up front.
+4. Pick worker models from `constellation_catalog({})` only when explicit diversity matters. Otherwise omit `model` so T3 inherits the exact parent Pi model; if inheritance is unavailable, fail clearly rather than silently selecting another model. For a model race, name each arm's catalog model ID up front.
 5. Give each worker its own writable output when it writes.
 
 ## Phase B: Fan out

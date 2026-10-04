@@ -110,13 +110,14 @@ try {
   const live = decoded(catalog!);
   const provider = (live.providers as Array<{ driverKind: string; canRunChildTask: boolean; models: Array<{ id: string }> }>).find(value => value.driverKind === "pi" && value.canRunChildTask);
   assert.ok(provider);
-  const model = process.env.CONSTELLATION_E2E_MODEL ?? live.inheritedModel;
+  assert.equal(live.inheritedProviderInstanceId, "pi", "Run the inheritance test from a T3 Pi parent.");
+  const model = live.inheritedModel;
   assert.equal(typeof model, "string");
   const [negative] = await run([{ id: "invalid-model", name: "constellation_delegate", arguments: { task: "No launch", model: "constellation-invalid-model" } }]);
   assert.equal(negative!.isError, true);
   const launch = await run([
-    { id: "worker", name: "constellation_delegate", arguments: { model: String(model), role: "worker", clientRequestId: launchKeys[0]!, title: "Constellation E2E worker", task: `Synthetic integration test. You may edit ONLY ${sumPath}. Fix sum to add signed numbers. Read ${testPath} and run node --test ${testPath}. Do not edit any other file; do not delegate. Report CONSTELLATION_IMPLEMENTATION_OK only after the test passes. Do not invent the private parent-only nonce; you were not given it.` } },
-    { id: "reviewer", name: "constellation_delegate", arguments: { model: String(model), role: "comment-reviewer", clientRequestId: launchKeys[1]!, title: "Constellation E2E reviewer", task: `Synthetic report-only integration test. Inspect ONLY ${commentsPath}; do not edit it or any other file, do not delegate. Identify whether its comment is redundant. Finish the report with CONSTELLATION_REVIEW_OK.` } },
+    { id: "worker", name: "constellation_delegate", arguments: { role: "worker", clientRequestId: launchKeys[0]!, title: "Constellation E2E worker", task: `Synthetic integration test. You may edit ONLY ${sumPath}. Fix sum to add signed numbers. Read ${testPath} and run node --test ${testPath}. Do not edit any other file; do not delegate. Report CONSTELLATION_IMPLEMENTATION_OK only after the test passes. Do not invent the private parent-only nonce; you were not given it.` } },
+    { id: "reviewer", name: "constellation_delegate", arguments: { role: "comment-reviewer", clientRequestId: launchKeys[1]!, title: "Constellation E2E reviewer", task: `Synthetic report-only integration test. Inspect ONLY ${commentsPath}; do not edit it or any other file, do not delegate. Identify whether its comment is redundant. Finish the report with CONSTELLATION_REVIEW_OK.` } },
   ]);
   tasks.push(...launch.map(decoded));
   assert.equal(new Set(tasks.map(task => task.taskId)).size, 2);
@@ -125,6 +126,8 @@ try {
   for (const [index, value] of completed.entries()) {
     assert.equal(value.taskId, tasks[index]!.taskId, "Idempotent wait did not create a duplicate child.");
     assert.equal(value.status, "completed");
+    assert.equal(value.providerInstanceId, live.inheritedProviderInstanceId);
+    assert.equal(value.model, model, "Child model inherits the actual T3 Pi parent model.");
     assert.equal(value.waitTimedOut, false);
   }
   assert.match(String(completed[0]!.summary), /CONSTELLATION_IMPLEMENTATION_OK/);
@@ -132,7 +135,7 @@ try {
   const testOutput = execFileSync(process.execPath, ["--test", testPath], { encoding: "utf8" });
   assert.notEqual(await hash(sumPath), before);
   assert.equal(await hash(commentsPath), commentsBefore, "Report-only role left the fixture unchanged.");
-  const [cancelLaunch] = await run([{ id: "cancel-launch", name: "constellation_delegate", arguments: { model: String(model), task: `Cancellation fixture. Read the Constellation workflow skills and explain their principles in detail. Do not edit files or delegate.`, title: "Constellation E2E cancellation", clientRequestId: launchKeys[2]! } }]);
+  const [cancelLaunch] = await run([{ id: "cancel-launch", name: "constellation_delegate", arguments: { task: `Cancellation fixture. Read the Constellation workflow skills and explain their principles in detail. Do not edit files or delegate.`, title: "Constellation E2E cancellation", clientRequestId: launchKeys[2]! } }]);
   const cancelTask = decoded(cancelLaunch!);
   tasks.push(cancelTask);
   const [cancel] = await run([{ id: "cancel", name: "constellation_cancel", arguments: { taskId: String(cancelTask.taskId), reason: "Integration test cancellation" } }]);
@@ -149,7 +152,7 @@ try {
     sourceSha256: await sourceSnapshot(),
     parent: "Real Pi SDK agent loop with a deterministic fixture stream; not an LLM parent or GUI test.",
     children: "Real T3-owned Pi processes using live authenticated models. No mocked child results.",
-    model, assertions: ["real Pi extension loading", "nested T3 tool hooks", "invalid model fails before launch", "two async distinct child tasks", "bundled worker fixes real code", "parent independently reruns passing test", "report-only reviewer leaves fixture unchanged", "idempotent durable wait reuses task IDs", "asynchronous cancellation receipt and terminal interruption", "terminal task status"],
+    model, assertions: ["real Pi extension loading", "no model argument: actual T3 Pi parent model inherited", "nested T3 tool hooks", "invalid model fails before launch", "two async distinct child tasks", "bundled worker fixes real code", "parent independently reruns passing test", "report-only reviewer leaves fixture unchanged", "idempotent durable wait reuses task IDs", "asynchronous cancellation receipt and terminal interruption", "terminal task status"],
     tasks: completed.map(value => ({ taskId: value.taskId, childThreadId: value.childThreadId, childRunId: value.childRunId, providerInstanceId: value.providerInstanceId, model: value.model, status: value.status, summary: value.summary })),
     cancellation: { taskId: cancelled.taskId, receiptStatus: cancelReceipt.status, terminalStatus: cancelled.status },
     fixture: { beforeSha256: before, afterSha256: await hash(sumPath), source: await readFile(sumPath, "utf8"), test: await readFile(testPath, "utf8"), testOutput },

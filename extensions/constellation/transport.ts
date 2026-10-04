@@ -80,11 +80,14 @@ export function parseCatalog(value: Record<string, unknown>): Catalog {
 
 export function selectPiTarget(catalog: Catalog, model?: string, options?: Record<string, string | boolean>) {
   const enabled = catalog.providers.filter(provider => provider.driverKind === "pi" && provider.canRunChildTask);
+  if (!enabled.length) throw new Error("No enabled Pi provider can run T3 child tasks. Enable Pi in T3 Code Settings.");
   const inherited = enabled.find(provider => provider.providerInstanceId === catalog.inheritedProviderInstanceId);
+  if (!inherited && !model) throw new Error("Default delegation requires a Pi parent so its exact model can be inherited. Select Pi in the T3 composer, or explicitly request a Pi model.");
   if (!inherited && enabled.length > 1) throw new Error("Multiple Pi providers are available without an inherited Pi instance; select Pi in the T3 composer first.");
   const provider = inherited ?? enabled[0];
   if (!provider) throw new Error("No enabled Pi provider can run T3 child tasks. Enable Pi in T3 Code Settings.");
-  const selectedModel = model ?? (inherited ? catalog.inheritedModel : undefined) ?? "default";
+  const selectedModel = model ?? (inherited ? catalog.inheritedModel : undefined);
+  if (!selectedModel) throw new Error("T3 did not report the parent Pi model; refusing to choose a different default. Refresh the Pi provider.");
   const entry = provider.models.find(candidate => candidate.id === selectedModel);
   if (!entry) throw new Error(`Pi model ${selectedModel} is not in T3's live catalog. Use constellation_catalog to choose an exact ID.`);
   for (const [id, value] of Object.entries(options ?? {})) {
