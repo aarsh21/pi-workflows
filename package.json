@@ -1,6 +1,6 @@
 {
   "name": "@aarsh21/pi-workflows",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Verified workflow skills and Pi subagents orchestrated by T3 Code, derived from p-stack.",
   "license": "MIT",
   "author": "aarsh21",
@@ -17,6 +17,7 @@
     "typecheck": "tsc --noEmit",
     "test:rpc": "python3 scripts/rpc-smoke.py",
     "test:live": "node --experimental-strip-types scripts/live-e2e.ts",
+    "test:setup": "python3 scripts/setup-e2e.py",
     "check:pack": "npm pack --dry-run"
   }
 }

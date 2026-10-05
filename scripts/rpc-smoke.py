@@ -9,10 +9,13 @@ root = pathlib.Path(__file__).resolve().parent.parent
 with tempfile.TemporaryDirectory(prefix="pstack-rpc-") as agent_dir:
     env = __import__("os").environ.copy()
     env["PI_CODING_AGENT_DIR"] = agent_dir
+    env.pop("T3_MCP_URL", None)
+    env.pop("T3_MCP_BEARER_TOKEN", None)
     commands = [
         {"id": "commands", "type": "get_commands"},
         {"id": "mode-off", "type": "prompt", "message": "/pstack off"},
         {"id": "check", "type": "prompt", "message": "/pstack-check"},
+        {"id": "setup-outside-t3", "type": "prompt", "message": "/setup-pstack"},
         {"id": "entries", "type": "get_entries"},
     ]
     result = subprocess.run(
@@ -26,9 +29,11 @@ with tempfile.TemporaryDirectory(prefix="pstack-rpc-") as agent_dir:
     responses = {record.get("id"): record for record in records if record.get("type") == "response"}
     assert all(responses[command["id"]]["success"] for command in commands), responses
     names = {command["name"] for command in responses["commands"]["data"]["commands"]}
-    assert {"pstack", "pstack-check", "poteto-mode"} <= names, names
+    assert {"pstack", "pstack-check", "poteto-mode", "setup-pstack"} <= names, names
     entries = responses["entries"]["data"]["entries"]
     assert any(entry.get("customType") == "pstack-mode" and entry.get("data") == {"enabled": False} for entry in entries), entries
     notifications = [record.get("message", "") for record in records if record.get("type") == "extension_ui_request"]
     assert any("unavailable" in message for message in notifications), notifications
+    assert any("catalog is unavailable" in message for message in notifications), notifications
+    assert not (pathlib.Path(agent_dir) / "pstack-config.json").exists()
     print(json.dumps({"passed": True, "commands": sorted(names), "modeOffPersisted": True, "outsideT3FailsClosed": True}, indent=2))

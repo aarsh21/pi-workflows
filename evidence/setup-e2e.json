@@ -1,0 +1,656 @@
+{
+  "passed": true,
+  "timestamp": "2026-10-05T05:12:34.798334+00:00",
+  "scope": "Real Pi RPC processes and dialogs, live authenticated T3 catalog; no mocked catalog or children. Not GUI/pixel testing.",
+  "config": {
+    "version": 1,
+    "budget": "small",
+    "models": {
+      "worker": "openai-codex/gpt-5.5",
+      "comment-reviewer": "openai-codex/gpt-6.1-sol"
+    }
+  },
+  "configSha256": "4df5032025331c5183318313c26ea1ef6e2d82a8f04ece8ed65cf5172ced5809",
+  "assertions": [
+    "/setup-pstack discovers live models",
+    "two distinct per-role model choices",
+    "all four budget presets and both inheritance aliases",
+    "save confirmation",
+    "persistent settings across fresh Pi processes",
+    "cancel at all four dialogs leaves bytes unchanged",
+    "idempotent rerun",
+    "saved defaults drive real T3-owned children"
+  ],
+  "sourceSha256": {
+    "extensions/pstack/command-catalog.ts": "3ca79565a7315926b6adef062a850a392503eb16d6cd9e8d2b6a743867e5b32b",
+    "extensions/pstack/index.ts": "e35fb63ae4adb8c099e9966b37a192ea95d807739a210fdb6a6561590a8b609a",
+    "extensions/pstack/roles.ts": "26e90bdc05d962632bcdb2b9c2748a98c5cf3b7b585dbb85f1327174cafe4318",
+    "extensions/pstack/setup.ts": "5ea3431b938b29930b52504b803a27e1026b416d8ec005826fe1b13ad17179a9",
+    "extensions/pstack/transport.ts": "c47755a570816b9860715f9bf47f1a69e24e3fbe9b4f1d747d957539ac24bcd0"
+  },
+  "dialogs": [
+    {
+      "type": "extension_ui_request",
+      "id": "093c59b6-feaa-4ad7-aae6-bd3206004bed",
+      "method": "setStatus",
+      "statusKey": "pstack-mode"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "5f1fbfb3-bf5c-4119-ab72-a156758a9572",
+      "method": "select",
+      "title": "pstack reasoning budget (current: unlimited)",
+      "options": [
+        "unlimited \u2014 keep max",
+        "large \u2014 xhigh reasoning",
+        "medium \u2014 high reasoning",
+        "small \u2014 medium reasoning"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "498b95e9-f536-44b5-bb48-9cfe7d86283f",
+      "method": "select",
+      "title": "pstack worker model (current: inherit-parent)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "d0ab53fc-3ae2-414d-8bf6-2e8df79a3c62",
+      "method": "select",
+      "title": "pstack comment-reviewer model (current: inherit-parent)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "3c5563c4-62d7-48fa-ad0c-e0fae941679d",
+      "method": "confirm",
+      "title": "Save pstack configuration?",
+      "message": "worker: openai-codex/gpt-5.5 \u2192 openai-codex/gpt-5.5 (medium)\ncomment-reviewer: openai-codex/gpt-6.1-sol \u2192 openai-codex/gpt-6.1-sol (medium)\n\nBudget controls child reasoning, not a dollar/token cap. Explicit tool model/options override defaults. Applies to both aliases too.\n/tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "d7858514-51e8-43b1-badc-bb53f5ce6dce",
+      "method": "notify",
+      "message": "Saved pstack models and small budget to /tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json. Applies immediately and in new sessions.",
+      "notifyType": "info"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "72b79a21-b093-4c2f-b97e-b173af2c23dd",
+      "method": "setStatus",
+      "statusKey": "pstack-mode"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "b660cb6d-1340-4745-9b39-26f78ed30e2c",
+      "method": "select",
+      "title": "pstack reasoning budget (current: small)",
+      "options": [
+        "unlimited \u2014 keep max",
+        "large \u2014 xhigh reasoning",
+        "medium \u2014 high reasoning",
+        "small \u2014 medium reasoning"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "ea48335e-93a7-4953-95f2-9e91cb067269",
+      "method": "select",
+      "title": "pstack worker model (current: openai-codex/gpt-5.5)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "215966b8-8e3a-46dd-bbf8-4820471fe2f6",
+      "method": "select",
+      "title": "pstack comment-reviewer model (current: openai-codex/gpt-6.1-sol)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "bdafd079-7918-41e7-9c9f-03844c7f809e",
+      "method": "confirm",
+      "title": "Save pstack configuration?",
+      "message": "worker: auto \u2192 openai-codex/gpt-6.1-sol (max)\ncomment-reviewer: inherit-parent \u2192 openai-codex/gpt-6.1-sol (max)\n\nBudget controls child reasoning, not a dollar/token cap. Explicit tool model/options override defaults. Applies to both aliases too.\n/tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "2e02f29f-0e3b-45e0-8e3d-7a63924e407f",
+      "method": "notify",
+      "message": "Saved pstack models and unlimited budget to /tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json. Applies immediately and in new sessions.",
+      "notifyType": "info"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "49645a55-d8a7-492f-80ec-210f41276b83",
+      "method": "setStatus",
+      "statusKey": "pstack-mode"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "9c394847-a25f-489d-a180-0b638f48c871",
+      "method": "select",
+      "title": "pstack reasoning budget (current: unlimited)",
+      "options": [
+        "unlimited \u2014 keep max",
+        "large \u2014 xhigh reasoning",
+        "medium \u2014 high reasoning",
+        "small \u2014 medium reasoning"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "ddcc16e9-05a4-4973-994a-93f8b7dcd114",
+      "method": "select",
+      "title": "pstack worker model (current: auto)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "5d6e58fd-5991-4de9-bada-4bbe4326ed90",
+      "method": "select",
+      "title": "pstack comment-reviewer model (current: inherit-parent)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "0a93b07a-a92b-450d-8c96-08bf33804dde",
+      "method": "confirm",
+      "title": "Save pstack configuration?",
+      "message": "worker: auto \u2192 openai-codex/gpt-6.1-sol (xhigh)\ncomment-reviewer: inherit-parent \u2192 openai-codex/gpt-6.1-sol (xhigh)\n\nBudget controls child reasoning, not a dollar/token cap. Explicit tool model/options override defaults. Applies to both aliases too.\n/tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "fc539956-ea05-468c-8dec-66b1a2ac7bed",
+      "method": "notify",
+      "message": "Saved pstack models and large budget to /tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json. Applies immediately and in new sessions.",
+      "notifyType": "info"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "cfc3d4ae-51e5-45b6-917b-761f56594652",
+      "method": "setStatus",
+      "statusKey": "pstack-mode"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "303eb422-eb2d-4770-acfa-0655be362817",
+      "method": "select",
+      "title": "pstack reasoning budget (current: large)",
+      "options": [
+        "unlimited \u2014 keep max",
+        "large \u2014 xhigh reasoning",
+        "medium \u2014 high reasoning",
+        "small \u2014 medium reasoning"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "364110fa-0afa-41f4-a2a9-eec60c9ad3d9",
+      "method": "select",
+      "title": "pstack worker model (current: auto)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "f911a5bb-ec6d-4406-bf19-cace487703e2",
+      "method": "select",
+      "title": "pstack comment-reviewer model (current: inherit-parent)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "dd452f79-490f-4d9b-b181-ead290d75347",
+      "method": "confirm",
+      "title": "Save pstack configuration?",
+      "message": "worker: auto \u2192 openai-codex/gpt-6.1-sol (high)\ncomment-reviewer: inherit-parent \u2192 openai-codex/gpt-6.1-sol (high)\n\nBudget controls child reasoning, not a dollar/token cap. Explicit tool model/options override defaults. Applies to both aliases too.\n/tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "1c50fcc2-6c78-4c6b-9376-6fbbe4be64a9",
+      "method": "notify",
+      "message": "Saved pstack models and medium budget to /tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json. Applies immediately and in new sessions.",
+      "notifyType": "info"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "477f9347-bffb-4e29-8035-2407e2bc8c90",
+      "method": "setStatus",
+      "statusKey": "pstack-mode"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "2c60ddec-23af-4d59-9d68-dbfa3e494eb4",
+      "method": "select",
+      "title": "pstack reasoning budget (current: medium)",
+      "options": [
+        "unlimited \u2014 keep max",
+        "large \u2014 xhigh reasoning",
+        "medium \u2014 high reasoning",
+        "small \u2014 medium reasoning"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "77083e90-d581-42a6-814e-a773d90d21bf",
+      "method": "select",
+      "title": "pstack worker model (current: auto)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "c43fff08-ad2f-4b87-b685-2999080b0d7c",
+      "method": "select",
+      "title": "pstack comment-reviewer model (current: inherit-parent)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "64bbcd7e-5044-4f8f-8fe1-6d42d1df4006",
+      "method": "confirm",
+      "title": "Save pstack configuration?",
+      "message": "worker: openai-codex/gpt-5.5 \u2192 openai-codex/gpt-5.5 (medium)\ncomment-reviewer: openai-codex/gpt-6.1-sol \u2192 openai-codex/gpt-6.1-sol (medium)\n\nBudget controls child reasoning, not a dollar/token cap. Explicit tool model/options override defaults. Applies to both aliases too.\n/tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "172193de-9120-4aee-9471-3625ec008990",
+      "method": "notify",
+      "message": "Saved pstack models and small budget to /tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json. Applies immediately and in new sessions.",
+      "notifyType": "info"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "34e1eb68-b2a9-46a1-b148-908b87d3ebe7",
+      "method": "setStatus",
+      "statusKey": "pstack-mode"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "81404597-0acf-49c2-bf8d-a6251f802055",
+      "method": "select",
+      "title": "pstack reasoning budget (current: small)",
+      "options": [
+        "unlimited \u2014 keep max",
+        "large \u2014 xhigh reasoning",
+        "medium \u2014 high reasoning",
+        "small \u2014 medium reasoning"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "f18a8912-518f-4162-aa2d-3fa5ebcf96d0",
+      "method": "notify",
+      "message": "pstack setup cancelled; configuration unchanged.",
+      "notifyType": "info"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "7d723e48-782c-4b08-8bd2-d807ed980df0",
+      "method": "setStatus",
+      "statusKey": "pstack-mode"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "2c3c786e-2a33-4962-b7ff-628b333c185d",
+      "method": "select",
+      "title": "pstack reasoning budget (current: small)",
+      "options": [
+        "unlimited \u2014 keep max",
+        "large \u2014 xhigh reasoning",
+        "medium \u2014 high reasoning",
+        "small \u2014 medium reasoning"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "5217fc14-ecf8-4594-bd48-6c677b56a2e0",
+      "method": "select",
+      "title": "pstack worker model (current: openai-codex/gpt-5.5)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "a91a2672-f469-4cf0-997f-5fb8bd7e4d38",
+      "method": "notify",
+      "message": "pstack setup cancelled; configuration unchanged.",
+      "notifyType": "info"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "c8b3f602-33e5-4652-8b95-dc1acc27d647",
+      "method": "setStatus",
+      "statusKey": "pstack-mode"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "34d2c41f-22d1-46a9-856f-1a1221b4f937",
+      "method": "select",
+      "title": "pstack reasoning budget (current: small)",
+      "options": [
+        "unlimited \u2014 keep max",
+        "large \u2014 xhigh reasoning",
+        "medium \u2014 high reasoning",
+        "small \u2014 medium reasoning"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "da79c615-1034-4e57-af2a-ac31c3784a73",
+      "method": "select",
+      "title": "pstack worker model (current: openai-codex/gpt-5.5)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "d27d25b5-bbb0-4cd5-8333-eae79756a326",
+      "method": "select",
+      "title": "pstack comment-reviewer model (current: openai-codex/gpt-6.1-sol)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "3b018224-d9b6-4cf6-9411-700059a24cc0",
+      "method": "notify",
+      "message": "pstack setup cancelled; configuration unchanged.",
+      "notifyType": "info"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "8c8739cd-16ab-4a4a-a0e7-dd385f52005a",
+      "method": "setStatus",
+      "statusKey": "pstack-mode"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "55d9d002-5691-4643-90b9-7dd545c9fee5",
+      "method": "select",
+      "title": "pstack reasoning budget (current: small)",
+      "options": [
+        "unlimited \u2014 keep max",
+        "large \u2014 xhigh reasoning",
+        "medium \u2014 high reasoning",
+        "small \u2014 medium reasoning"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "a1dbb27f-3f42-4f69-9a6b-926be2456c6b",
+      "method": "select",
+      "title": "pstack worker model (current: openai-codex/gpt-5.5)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "b8bcd08c-7e51-4403-9794-648194503aff",
+      "method": "select",
+      "title": "pstack comment-reviewer model (current: openai-codex/gpt-6.1-sol)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "45f9d09c-dc54-4c13-967a-e89299867187",
+      "method": "confirm",
+      "title": "Save pstack configuration?",
+      "message": "worker: auto \u2192 openai-codex/gpt-6.1-sol (high)\ncomment-reviewer: inherit-parent \u2192 openai-codex/gpt-6.1-sol (high)\n\nBudget controls child reasoning, not a dollar/token cap. Explicit tool model/options override defaults. Applies to both aliases too.\n/tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "da2a3a33-b534-468a-b353-c6056fe9a9d0",
+      "method": "notify",
+      "message": "pstack setup cancelled; configuration unchanged.",
+      "notifyType": "info"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "bd35fc43-cda7-43d2-a3a8-7d41ff28e3b2",
+      "method": "setStatus",
+      "statusKey": "pstack-mode"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "6729820d-3e7e-4511-98d5-f7041157ffb2",
+      "method": "select",
+      "title": "pstack reasoning budget (current: small)",
+      "options": [
+        "unlimited \u2014 keep max",
+        "large \u2014 xhigh reasoning",
+        "medium \u2014 high reasoning",
+        "small \u2014 medium reasoning"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "4e42d8ce-f820-4116-a1ef-77b9f5b80499",
+      "method": "select",
+      "title": "pstack worker model (current: openai-codex/gpt-5.5)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "71343d52-f4db-4cda-b232-301b0b88ae5a",
+      "method": "select",
+      "title": "pstack comment-reviewer model (current: openai-codex/gpt-6.1-sol)",
+      "options": [
+        "inherit-parent",
+        "auto",
+        "openai-codex/gpt-5.3-codex-spark",
+        "openai-codex/gpt-5.5",
+        "openai-codex/gpt-5.6-luna",
+        "openai-codex/gpt-5.6-sol",
+        "openai-codex/gpt-5.6-terra",
+        "openai-codex/gpt-6-astra",
+        "openai-codex/gpt-6-luna",
+        "openai-codex/gpt-6-sol",
+        "openai-codex/gpt-6.1-sol"
+      ]
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "b166f8cd-ecf6-4c36-ba68-e0173733fcd6",
+      "method": "confirm",
+      "title": "Save pstack configuration?",
+      "message": "worker: openai-codex/gpt-5.5 \u2192 openai-codex/gpt-5.5 (medium)\ncomment-reviewer: openai-codex/gpt-6.1-sol \u2192 openai-codex/gpt-6.1-sol (medium)\n\nBudget controls child reasoning, not a dollar/token cap. Explicit tool model/options override defaults. Applies to both aliases too.\n/tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json"
+    },
+    {
+      "type": "extension_ui_request",
+      "id": "8870115f-4933-4a38-8521-3eb2d77e0aee",
+      "method": "notify",
+      "message": "Saved pstack models and small budget to /tmp/pstack-setup-e2e-h9_n81lo/pstack-config.json. Applies immediately and in new sessions.",
+      "notifyType": "info"
+    }
+  ],
+  "childTestOutput": "{\n  \"passed\": true,\n  \"evidencePath\": \"/home/buhh/Work/pi-workflows/evidence/setup-live-children.json\",\n  \"taskIds\": [\n    \"node:delegated-task:command%3Amcp%3A817b73cb-bea6-4ced-b682-0a1d6b6a732d%3Adelegate-task%3Apstack-e2e%253Aab05bf42-83da-4541-a69b-862f1b34a140%253A0\",\n    \"node:delegated-task:command%3Amcp%3A817b73cb-bea6-4ced-b682-0a1d6b6a732d%3Adelegate-task%3Apstack-e2e%253Aab05bf42-83da-4541-a69b-862f1b34a140%253A1\",\n    \"node:delegated-task:command%3Amcp%3A817b73cb-bea6-4ced-b682-0a1d6b6a732d%3Adelegate-task%3Apstack-e2e%253Aab05bf42-83da-4541-a69b-862f1b34a140%253A2\"\n  ]\n}\n"
+}

@@ -2,10 +2,12 @@ import { createHash } from "node:crypto";
 import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
 import { buildTask, ROLES } from "./roles.ts";
-import { callT3, parseCatalog, resolveT3Tool, selectPiTarget } from "./transport.ts";
+import { callT3, parseCatalog, resolveT3Tool } from "./transport.ts";
+import { configuredTarget, configPath, loadConfig, saveConfig, setup } from "./setup.ts";
+import { commandCatalog } from "./command-catalog.ts";
 
 const MODE_ENTRY = "pstack-mode";
-const GUIDANCE = `Use pstack_delegate to start a Pi child through T3 Code. Omit model to inherit your Pi model. pstack_catalog lists available models and options. Keep the returned taskId for pstack_status or pstack_cancel. After launch, end your turn or do other work. T3 sends the completion result automatically. Do not poll or sleep while waiting. Start a new task for each review round. Include the original brief, prior findings, responses, and unresolved objections. Children share your checkout. Give parallel writers separate file scopes.`;
+const GUIDANCE = `Use pstack_delegate to start a Pi child through T3 Code. Omit model to inherit your Pi model. pstack_catalog lists available models and options. Keep the returned taskId for pstack_status or pstack_cancel. After launch, end your turn or do other work. T3 sends the completion result automatically. Do not poll or sleep while waiting. Start a new task for each review round. Include the original brief, prior findings, responses, and unresolved objections. Children share your checkout. Give parallel writers separate file scopes. /setup-pstack saves role-specific Pi model and reasoning defaults; omit model/options to use them. Explicit model/options override setup defaults. Inherit-parent and auto choices use the current parent model with the configured reasoning budget.`;
 
 export function externalWrite(command: string): string | undefined {
   const patterns: Array<[RegExp, string]> = [
@@ -55,7 +57,7 @@ export default function pstack(pi: ExtensionAPI) {
       const role = params.role ?? "worker";
       const task = await buildTask(role, params.task);
       const catalog = parseCatalog(await callT3(ctx, "orchestrator_capabilities", {}, signal));
-      const target = selectPiTarget(catalog, params.model, params.options);
+      const target = configuredTarget(catalog, await loadConfig(), role, params.model, params.options);
       const value = await callT3(ctx, "delegate_task", {
         task, title: params.title ?? `Pi Workflows ${role}`,
         role: role === "comment-reviewer" ? "review" : "implementation",
@@ -123,6 +125,24 @@ export default function pstack(pi: ExtensionAPI) {
   };
   pi.registerCommand("pstack", { description: "Enable the T3-native workflow: /pstack [task] | /pstack off", handler });
   pi.registerCommand("poteto-mode", { description: "Compatibility alias for /pstack [task] | /pstack off", handler });
+  pi.registerCommand("setup-pstack", {
+    description: "Choose persistent Pi child models per role and reasoning budget from T3's live catalog.",
+    handler: async (_args, ctx) => {
+      if (!ctx.hasUI) throw new Error("/setup-pstack requires interactive or RPC UI; no configuration was changed.");
+      try {
+        const catalog = await commandCatalog();
+        const candidate = await setup(ctx, catalog, await loadConfig());
+        if (!candidate) { ctx.ui.notify("pstack setup cancelled; configuration unchanged.", "info"); return; }
+        // Revalidate against fresh availability before committing the complete configuration.
+        const fresh = await commandCatalog();
+        for (const role of ["worker", "comment-reviewer"] as const) configuredTarget(fresh, candidate, role);
+        await saveConfig(candidate);
+        ctx.ui.notify(`Saved pstack models and ${candidate.budget} budget to ${configPath()}. Applies immediately and in new sessions.`, "info");
+      } catch (error) {
+        ctx.ui.notify(error instanceof Error ? error.message : String(error), "error");
+      }
+    },
+  });
   pi.registerCommand("pstack-check", {
     description: "Check that T3 orchestration tools are registered; use pstack_catalog to verify live Pi availability.",
     handler: async (_args, ctx) => {

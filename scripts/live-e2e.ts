@@ -4,12 +4,13 @@ import { execFileSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { tmpdir, homedir } from "node:os";
 import { resolve } from "node:path";
-import { createAgentSession, DefaultResourceLoader, getAgentDir, SessionManager, SettingsManager } from "@earendil-works/pi-coding-agent";
+import { createAgentSession, DefaultResourceLoader, getAgentDir, ModelRuntime, SessionManager, SettingsManager } from "@earendil-works/pi-coding-agent";
 import { createAssistantMessageEventStream, type AssistantMessage, type JsonObject, type ToolCall } from "@earendil-works/pi-ai";
 import { Type } from "typebox";
 import pstack from "../extensions/pstack/index.ts";
 import { PACKAGE_ROOT } from "../extensions/pstack/roles.ts";
-import { callT3, decodeT3Result } from "../extensions/pstack/transport.ts";
+import { callT3, decodeT3Result, parseCatalog } from "../extensions/pstack/transport.ts";
+import { configuredTarget, loadConfig } from "../extensions/pstack/setup.ts";
 
 assert.ok(process.env.T3_MCP_URL && process.env.T3_MCP_BEARER_TOKEN, "Run from a T3-managed Pi session; never paste credentials into a report.");
 const runId = randomUUID();
@@ -51,6 +52,17 @@ const loader = new DefaultResourceLoader({
       }
     });
     pi.registerTool({
+      name: "pstack_test_configuration", label: "Test-only child configuration", description: "Read persisted T3 child configuration for integration assertions.",
+      parameters: Type.Object({ threadId: Type.String() }),
+      async execute(_id, params, signal, _update, ctx) {
+        const name = ctx.tools.find(tool => tool.name.replace(/[^a-z0-9]/gi, "").toLowerCase() === "mcpt3codet3threadconfiguration")?.name;
+        assert.ok(name, "T3 configuration read tool is registered.");
+        const outcome = await ctx.executeTool(name, params, { signal });
+        const value = decoded(outcome);
+        return { content: [{ type: "text", text: JSON.stringify(value) }], details: value };
+      },
+    });
+    pi.registerTool({
       name: "pstack_test_wait", label: "Test-only durable wait", description: "Test-only idempotent T3 wait, not shipped in the extension.",
       parameters: Type.Object({ clientRequestId: Type.String() }),
       async execute(_id, params, signal, _update, ctx) {
@@ -63,7 +75,9 @@ const loader = new DefaultResourceLoader({
   }],
 });
 await loader.reload();
-const { session } = await createAgentSession({ cwd: fixtureDir, resourceLoader: loader, settingsManager: settings, sessionManager: SessionManager.inMemory() });
+const { session } = await createAgentSession({ cwd: fixtureDir, resourceLoader: loader, settingsManager: settings, sessionManager: SessionManager.inMemory(),
+  ...(process.env.PSTACK_TEST_AUTH_PATH ? { modelRuntime: await ModelRuntime.create({ authPath: process.env.PSTACK_TEST_AUTH_PATH }) } : {}),
+});
 await session.bindExtensions({ mode: "rpc" });
 assert.ok(session.getActiveToolNames().includes("pstack_delegate"), "Pi Workflows is loaded in the real Pi runtime.");
 let batch: ToolCall[] = [];
@@ -113,13 +127,23 @@ try {
   assert.equal(live.inheritedProviderInstanceId, "pi", "Run the inheritance test from a T3 Pi parent.");
   const model = live.inheritedModel;
   assert.equal(typeof model, "string");
+  const config = await loadConfig();
+  const expectedTargets = (["worker", "comment-reviewer"] as const).map(role => configuredTarget(parseCatalog(live), config, role));
   const [negative] = await run([{ id: "invalid-model", name: "pstack_delegate", arguments: { task: "No launch", model: "pstack-invalid-model" } }]);
   assert.equal(negative!.isError, true);
   const launch = await run([
     { id: "worker", name: "pstack_delegate", arguments: { role: "worker", clientRequestId: launchKeys[0]!, title: "Pi Workflows E2E worker", task: `Synthetic integration test. You may edit ONLY ${sumPath}. Fix sum to add signed numbers. Read ${testPath} and run node --test ${testPath}. Do not edit any other file; do not delegate. Report PSTACK_IMPLEMENTATION_OK only after the test passes. Do not invent the private parent-only nonce; you were not given it.` } },
     { id: "reviewer", name: "pstack_delegate", arguments: { role: "comment-reviewer", clientRequestId: launchKeys[1]!, title: "Pi Workflows E2E reviewer", task: `Synthetic report-only integration test. Inspect ONLY ${commentsPath}; do not edit it or any other file, do not delegate. Identify whether its comment is redundant. Finish the report with PSTACK_REVIEW_OK.` } },
   ]);
-  tasks.push(...launch.map(decoded));
+  let launchError: unknown;
+  for (const outcome of launch) {
+    try { tasks.push(decoded(outcome)); }
+    catch (error) { launchError ??= error; }
+  }
+  if (launchError) throw launchError;
+  for (const [index, key] of launchKeys.slice(0, 2).entries()) {
+    assert.deepEqual(requests.get(key)?.target, expectedTargets[index], "The real nested T3 request uses persisted role/model/reasoning defaults.");
+  }
   assert.equal(new Set(tasks.map(task => task.taskId)).size, 2);
   const waits = await run(launchKeys.slice(0, 2).map((clientRequestId, index) => ({ id: `wait:${index}`, name: "pstack_test_wait", arguments: { clientRequestId } })));
   const completed = waits.map(decoded);
@@ -127,8 +151,16 @@ try {
     assert.equal(value.taskId, tasks[index]!.taskId, "Idempotent wait did not create a duplicate child.");
     assert.equal(value.status, "completed");
     assert.equal(value.providerInstanceId, live.inheritedProviderInstanceId);
-    assert.equal(value.model, model, "Child model inherits the actual T3 Pi parent model.");
+    assert.equal(value.model, expectedTargets[index]!.model, "Child uses the configured role model, or the exact inherited parent when unconfigured.");
     assert.equal(value.waitTimedOut, false);
+  }
+  const childConfigurations = (await run(completed.map((value, index) => ({ id: `configuration:${index}`, name: "pstack_test_configuration", arguments: { threadId: String(value.childThreadId) } })))).map(decoded);
+  for (const [index, configuration] of childConfigurations.entries()) {
+    const selection = configuration.modelSelection as { model: string; options?: Array<{ id: string; value: string | boolean }> };
+    assert.equal(selection.model, expectedTargets[index]!.model);
+    for (const [id, value] of Object.entries(expectedTargets[index]!.options ?? {})) {
+      assert.equal(selection.options?.find(option => option.id === id)?.value, value, "T3 persisted the configured child reasoning, not just the requested payload.");
+    }
   }
   assert.match(String(completed[0]!.summary), /PSTACK_IMPLEMENTATION_OK/);
   assert.match(String(completed[1]!.summary), /PSTACK_REVIEW_OK/);
@@ -152,7 +184,7 @@ try {
     sourceSha256: await sourceSnapshot(),
     parent: "Real Pi SDK agent loop with a deterministic fixture stream; not an LLM parent or GUI test.",
     children: "Real T3-owned Pi processes using live authenticated models. No mocked child results.",
-    model, assertions: ["real Pi extension loading", "no model argument: actual T3 Pi parent model inherited", "nested T3 tool hooks", "invalid model fails before launch", "two async distinct child tasks", "bundled worker fixes real code", "parent independently reruns passing test", "report-only reviewer leaves fixture unchanged", "idempotent durable wait reuses task IDs", "asynchronous cancellation receipt and terminal interruption", "terminal task status"],
+    model, config, expectedTargets, childConfigurations, assertions: ["real Pi extension loading", "no model/options arguments: persisted defaults or exact parent inheritance", "outgoing live T3 requests match expected model/reasoning settings", "nested T3 tool hooks", "invalid model fails before launch", "two async distinct child tasks", "bundled worker fixes real code", "parent independently reruns passing test", "report-only reviewer leaves fixture unchanged", "idempotent durable wait reuses task IDs", "asynchronous cancellation receipt and terminal interruption", "terminal task status"],
     tasks: completed.map(value => ({ taskId: value.taskId, childThreadId: value.childThreadId, childRunId: value.childRunId, providerInstanceId: value.providerInstanceId, model: value.model, status: value.status, summary: value.summary })),
     cancellation: { taskId: cancelled.taskId, receiptStatus: cancelReceipt.status, terminalStatus: cancelled.status },
     fixture: { beforeSha256: before, afterSha256: await hash(sumPath), source: await readFile(sumPath, "utf8"), test: await readFile(testPath, "utf8"), testOutput },

@@ -1,6 +1,10 @@
 # Verification evidence
 
-## Current checks
+## Version 0.2.3 setup and upstream sync
+
+[setup-verification.md](setup-verification.md) summarizes 28 tests, real Pi RPC dialogs and authenticated T3 children. [setup-e2e.json](setup-e2e.json) contains live model selection, budget presets, restart persistence and cancellation. [setup-live-children.json](setup-live-children.json) independently reads persisted child models/reasoning and records a real code fix, review and interruption. [inheritance-live-e2e.json](inheritance-live-e2e.json) verifies unconfigured parent inheritance. [upstream-parity.md](upstream-parity.md) lists portable updates and remaining Cursor differences.
+
+## Earlier checks
 
 [local-checks.txt](local-checks.txt) records 24 passing tests, TypeScript checking, a real Pi RPC smoke test, and a package check.
 

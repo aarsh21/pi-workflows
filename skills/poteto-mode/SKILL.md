@@ -26,6 +26,8 @@ Remaining triggers:
 - Asked to land or ship a green stack → the **Shipping** playbook (`playbooks/shipping.md`). Green is not safe. Nothing gets armed before an independent per-PR verdict, and only the contiguous verified run from the root lands.
 - Bugbot or the agentic security review commented → skeptical posture. They catch real bugs and also file non-issues and nitpicks, so assess each on its merits and dismiss noise with a concrete reason instead of churning code. Triage fix / dismiss / ask per `references/bugbot-triage.md`.
 - Broken skill mid-task → fix it in its own PR. Don't block. Don't silently work around it.
+- Repeated agent mistakes or a correction that could recur → the **correct** skill. Encode the lesson in architecture, types, checks, or tests.
+- Any benchmark or performance number → the **benchmark-checklist** skill and **principle-explain-the-number** before trusting it.
 - Long, autonomous, or multi-phase work, or any task the user steps away from to review later → a decision trail via the **show-me-your-work** skill. Commit it when stakes need an auditable record; keep it local otherwise.
 
 ## Principles
@@ -57,6 +59,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 **Verification**
 
 - **Prove It Works** (**principle-prove-it-works**). After a task, before declaring done. Verify against the real artifact, not a proxy or "it compiles".
+- **Explain the Number** (**principle-explain-the-number**). Reporting performance, throughput, or latency. Explain the limiting resource, measured work, errors, and noise before drawing conclusions.
 - **Fix Root Causes** (**principle-fix-root-causes**). Debugging. Trace each symptom to its root cause, reproduce first, ask why until you reach it.
 - **Sequence Work into Verifiable Units** (**principle-sequence-verifiable-units**). Multi-step work (sweeps, migrations, runs of similar edits) and how you stack commits and PRs. Break work into small units that each end in a check, verify each before the next, and order delivery so the sequence proves itself.
 - **Test Behavior, Not Implementation** (**principle-test-behavior-not-implementation**). Writing, changing, or keeping a test. Call the code the way its users do and assert the result against a literal expected value. If the test would still pass when every imported function returns `undefined`, rewrite the assertion or delete the test.
@@ -86,7 +89,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Call shape.** Use `pstack_delegate({ task, title?, role?: 'worker' | 'comment-reviewer', model?, options?, clientRequestId? })`. The call is async only and starts exactly one task. Launch independent work with separate calls, which may be issued in parallel. Launch dependent work only after prior results arrive. Read status only with `pstack_status({ taskId })`. Cancel with `pstack_cancel({ taskId, reason? })`. Discover authenticated provider and model IDs with `pstack_catalog({})`.
 
-**Model selection.** T3 provider selection is Pi. Omit `model` to inherit the exact parent Pi model. If T3 cannot report that model or the caller is not Pi, fail clearly rather than silently selecting another default. When explicit diversity matters, choose authenticated model IDs from `pstack_catalog({})`. Do not hardcode model pools, old model-routing tables, or obsolete aliases.
+**Model selection.** T3 provider selection is Pi. Run `/setup-pstack` to save a reasoning budget and separate worker/reviewer model choices. Omit `model` and `options` to use these saved defaults. Without setup, the exact parent Pi model is inherited. Explicit tool arguments override configured defaults; all choices are validated against the live catalog. If T3 cannot report an inherited model or the caller is not Pi, fail clearly rather than silently selecting another default. When explicit diversity matters, choose authenticated model IDs from `pstack_catalog({})`. Do not hardcode model pools, old model-routing tables, or obsolete aliases.
 
 **Delegate contract.** Keep `task` self-contained. Point at files instead of inlining large payloads. Include the goal, scope, allowed files, verification, whether writes are allowed, and the requested report format. Role markdown is injected into the task, but it is not a sandbox or tool allowlist. T3 children share the caller checkout and have fresh context. They do not get automatic worktree isolation. Parallel writes require disjoint scopes. Create separate top-level worktree threads only when the user explicitly requests them.
 
